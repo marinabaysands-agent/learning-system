@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>今天的 AI 是你这辈子用过最差的——OpenAI CPO 的产品哲学 — Product Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:oklch(98% 0.005 60);--text:oklch(18% 0.01 60);--text2:oklch(45% 0.01 60);--text3:oklch(62% 0.01 60);--accent:oklch(45% 0.12 30);--border:oklch(90% 0.005 60);--note-bg:oklch(96% 0.008 60);--serif:'Noto Serif SC','Newsreader',Georgia,serif;--sans:'Source Sans 3',-apple-system,system-ui,sans-serif}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.85;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}::selection{background:oklch(90% 0.08 30)}.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:100;width:0}.header{max-width:640px;margin:0 auto;padding:clamp(48px,10vw,100px) clamp(20px,5vw,48px) 0}.header .back{font-size:.8125rem;color:var(--text3);text-decoration:none;letter-spacing:.02em}.header .back:hover{color:var(--text)}.header h1{font-family:var(--serif);font-size:clamp(1.625rem,4vw,2.25rem);font-weight:700;line-height:1.25;margin-top:24px;letter-spacing:-.02em}.header .subtitle{font-size:1rem;color:var(--text2);margin-top:12px;line-height:1.6;font-weight:300}.header .meta{font-size:.8125rem;color:var(--text3);margin-top:20px;display:flex;flex-wrap:wrap;gap:16px}.tldr{max-width:640px;margin:48px auto 0;padding:0 clamp(20px,5vw,48px)}.tldr-box{border-top:2px solid var(--text);padding-top:20px}.tldr-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}.tldr-box p{font-size:.9375rem;line-height:1.8}.nums{display:flex;gap:clamp(16px,4vw,32px);margin-top:20px;flex-wrap:wrap}.nums .n{font-family:var(--serif);font-size:1.5rem;font-weight:700}.nums .d{font-size:.75rem;color:var(--text3)}.toc{max-width:640px;margin:48px auto 0;padding:0 clamp(20px,5vw,48px)}.toc-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}.toc ol{list-style:none;columns:2;column-gap:32px}.toc li{break-inside:avoid;margin-bottom:5px}.toc a{font-size:.875rem;color:var(--text2);text-decoration:none;line-height:1.5;transition:color .15s}.toc a:hover{color:var(--text)}@media(max-width:520px){.toc ol{columns:1}}.article{max-width:640px;margin:56px auto 0;padding:0 clamp(20px,5vw,48px)}.ch{margin-bottom:48px}.ch-label{font-size:.75rem;color:var(--text3);letter-spacing:.05em;margin-bottom:4px}.ch h2{font-family:var(--serif);font-size:clamp(1.125rem,2.5vw,1.375rem);font-weight:600;line-height:1.35;margin-bottom:16px}.ch p{font-size:.9375rem;line-height:1.9;margin-bottom:12px}.ch p strong{font-weight:600}.ch blockquote{margin:20px 0;padding:0 0 0 20px;border-left:2px solid var(--border)}.ch blockquote p{font-family:var(--serif);font-size:.9375rem;font-style:italic;color:var(--text2);margin:0}.ch blockquote .attr{font-family:var(--sans);font-size:.8125rem;color:var(--text3);font-style:normal;margin-top:4px}.ed{margin:16px 0;padding:16px 20px;background:var(--note-bg);border-radius:2px;font-size:.8125rem;line-height:1.75;color:var(--text2)}.ed .tag{font-weight:600;font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}.sep{width:24px;height:1px;background:var(--border);margin:40px 0}.tensions{max-width:640px;margin:64px auto 0;padding:0 clamp(20px,5vw,48px)}.tensions>h2{font-family:var(--serif);font-size:1.25rem;font-weight:600;margin-bottom:28px}.ti{margin-bottom:28px}.ti h3{font-size:.9375rem;font-weight:600;margin-bottom:6px}.ti p{font-size:.875rem;line-height:1.85;color:var(--text2)}.footer{max-width:640px;margin:80px auto 0;padding:24px clamp(20px,5vw,48px) 48px;border-top:1px solid var(--border);font-size:.8125rem;color:var(--text3)}.footer a{color:var(--text2);text-decoration:none}
+</style>
+<link rel="stylesheet" href="/assets/learning.css">
+</head>
+<body>
+<div class="progress" id="prog"></div>
+
+<div class="header">
+  <a class="back" href="/library/">← 内容库</a>
+  <h1>今天的 AI 是你这辈子用过最差的——OpenAI CPO 的产品哲学</h1>
+  <div class="subtitle">Kevin Weil 从 Twitter、Instagram、Libra 到 OpenAI CPO 的旅程，以及为什么在 AI 时代做产品的核心技能是"像理解人一样理解模型"</div>
+  <div class="meta">
+    <span>Lenny's Podcast</span>
+    <span>Kevin Weil · OpenAI CPO</span>
+    <span>~90 min</span>
+    <a href="https://www.youtube.com/watch?v=scsW6_2SPC4" target="_blank" rel="noopener" style="color:var(--text3);font-size:0.8125rem;text-decoration:none">▶ YouTube</a>
+  </div>
+</div>
+
+<div class="tldr">
+  <div class="tldr-box">
+    <div class="tldr-label">30 秒读完</div>
+    <p>Kevin Weil 管理着 4 亿周活用户的 ChatGPT 产品。他最反直觉的洞察是：设计 AI 产品体验时，最好的心智模型是"想象一个人会怎么做"——模型需要思考 25 秒？人也不会沉默 25 秒。多个模型协作？就像团队头脑风暴。他的另一个核心信念：Chat 不是过渡界面，而是因为人类语言本身就是最通用的接口。OpenAI 的产品哲学是"模型极大主义"——不花时间修补当前模型的缺陷，因为两个月后新模型会让这些缺陷消失。</p>
+    <div class="nums">
+      <div><div class="n">400M+</div><div class="d">ChatGPT 周活跃用户</div></div>
+      <div><div class="n">30-40</div><div class="d">客服人数（传统公司需要数千人）</div></div>
+      <div><div class="n">2 个月</div><div class="d">模型能力的升级周期</div></div>
+      <div><div class="n">9 天</div><div class="d">Kevin 等 offer 的煎熬时间</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-label">目录</div>
+  <ol>
+    <li><a href="#ch01">AI 就是"还没做到的事"</a></li>
+    <li><a href="#ch02">模型极大主义：别修补，等升级</a></li>
+    <li><a href="#ch03">像理解人一样理解模型</a></li>
+    <li><a href="#ch04">Chat 不是过渡，是终极接口</a></li>
+    <li><a href="#ch05">Eval 是新的核心技能</a></li>
+    <li><a href="#ch06">ImageGen 的内部信号</a></li>
+    <li><a href="#ch07">Libra：职业生涯最大的遗憾</a></li>
+    <li><a href="#ch08">迭代部署：和社会一起学习</a></li>
+    <li><a href="#ch09">AI 创业的机会地图</a></li>
+    <li><a href="#ch10">公司就是一个模型集合体</a></li>
+    <li><a href="#ch11">教孩子好奇心，而不是编程</a></li>
+  </ol>
+</div>
+
+<div class="article">
+
+<div class="ch" id="ch01">
+  <div class="ch-label">01</div>
+  <h2>"AI 就是还没做到的事"——做到了就叫机器学习，普及了就叫算法</h2>
+  <p>Kevin 引用了一个他很喜欢的定义：<strong>AI 是你还做不到的事；做到了就叫机器学习；普及了就叫算法</strong>。自动驾驶三年前是 AI，现在湾区满街都是 Waymo，没人觉得它特别。</p>
+  <p>这个定义揭示了一个产品人必须面对的现实：<strong>你正在构建的"AI 产品"，两年后会变成一个普通功能</strong>。如果你的竞争力只是"我用了 AI"，那你没有竞争力。</p>
+  <blockquote>
+    <p>今天你用的 AI 模型，是你这辈子用过的最差的 AI 模型。当你真正理解了这句话，你对产品的思考方式会完全不同。</p>
+    <div class="attr">— Kevin Weil</div>
+  </blockquote>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch02">
+  <div class="ch-label">02</div>
+  <h2>模型极大主义：别花时间修补缺陷，两个月后新模型会让它消失</h2>
+  <p>OpenAI 内部有一个哲学叫"Model Maximalism"。核心思想：<strong>模型不完美，你可以花大量时间在模型周围搭脚手架，但两个月后新模型会让这些脚手架变得多余</strong>。</p>
+  <p>给开发者的建议也是一样：<strong>如果你正在做的产品刚好在模型能力的边缘，继续做</strong>。不要因为模型"差一点点做不到"就放弃。再等两个月，模型会进步到让你的产品真正发光的程度。</p>
+  <p>Bolt/Stackblitz 的故事就是最好的例证：他们的产品做了七年都不行，直到 Claude Sonnet 3.5 出来的那天，一切突然 work 了。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    "模型极大主义"对 OpenAI 自己是最优策略——因为他们控制模型升级节奏。但对依赖 OpenAI API 的创业公司，这个哲学意味着你的产品随时可能因为模型变化而崩溃或变得多余。这是一个不对称的建议：给出建议的人控制着变量。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch03">
+  <div class="ch-label">03</div>
+  <h2>像理解人一样理解模型——Kevin 最反直觉的产品设计心智模型</h2>
+  <p>Kevin 说他最惊讶的发现是：<strong>你可以像理解人一样理解 AI 模型的行为，而且它居然有效</strong>。</p>
+  <p>几个例子：</p>
+  <p><strong>🤔 思考 UI</strong>：推理模型需要 25 秒思考。人会怎么做？不会沉默 25 秒，也不会把每个想法都说出来。他们会给你零星的更新——"嗯，这是个好问题。让我想想……" OpenAI 最终的设计就是这样。</p>
+  <p><strong>🧠 多模型协作</strong>：多个模型攻击同一个问题，然后一个模型整合答案——这就像人类头脑风暴。一群人想问题，一个人总结，效果比一个人独自想好得多。</p>
+  <p><strong>🏢 公司就是模型集合体</strong>：每个员工都是一个经过"微调"的模型（通过教育和职业经历），组合在一起的输出比任何个体都好。有些人便宜，有些人贵；有些人快，有些人慢；有些人会"幻觉"。</p>
+  <blockquote>
+    <p>不是说答案总是"想想人会怎么做"。但当你不知道该怎么设计时，想想同等情况下一个人会怎么反应——这给了你一个很好的起点。</p>
+    <div class="attr">— Kevin Weil</div>
+  </blockquote>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch04">
+  <div class="ch-label">04</div>
+  <h2>Chat 不是过渡界面——它是人类语言本身，也就是最通用的接口</h2>
+  <p>人们总说"Chat 只是过渡，等我们找到更好的 AI 界面"。Kevin 不同意。他的论点：<strong>如果我们之间有一个更死板的界面，我能和你讨论的主题范围就会小很多</strong>。Chat（无论是文字还是语音）是人类沟通的最低公约数——最灵活、最通用、没有限制。</p>
+  <p>过去 Chat 不行，是因为没有模型能理解人类语言的复杂性和微妙性。LLM 改变了这一点。<strong>Chat 不是 LLM 的临时界面，它是为 LLM 量身定制的完美界面</strong>。</p>
+  <p>当然，特定的高频垂直场景可以有更优化的界面。但 Chat 是兜底的通用层——任何不适合特定界面的需求，都可以通过 Chat 满足。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch05">
+  <div class="ch-label">05</div>
+  <h2>Eval 是新的核心技能——如果你不会写 Eval，你就不会做 AI 产品</h2>
+  <p>在传统软件中，QA 是确定性的——输入 A 得到输出 B。LLM 不是。同样的输入可能得到不同的输出，而且"正确"的定义本身是模糊的。</p>
+  <p>这就是为什么 <strong>Eval（评估）变成了 AI 产品的核心技能</strong>。Kevin 说：在 OpenAI，每个 PM 和工程师都需要理解如何写 eval。你必须能够定义"什么是好"，然后用可量化的方式衡量模型是否做到了。</p>
+  <p>60% 的准确率、95% 的准确率、99.5% 的准确率——<strong>你做的产品完全不同</strong>。在 60% 准确率下，你需要大量人工复核；在 99.5% 下，你可以全自动。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    Eval 正在成为一个新的职业技能。Braintrust、Humanloop、LangSmith 等工具都在围绕这个需求构建产品。对 PM 来说，"写好 eval"可能会像"做好 AB 测试"一样成为必备技能——而且更难，因为你需要定义什么是"足够好"，这本身就是一个产品判断。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch06">
+  <div class="ch-label">06</div>
+  <h2>ImageGen 的内部信号：如果你自己的团队疯狂使用，那就对了</h2>
+  <p>Lenny 问 ImageGen（4o 图像生成）的病毒式传播是否出乎意料。Kevin 说：<strong>当内部团队疯狂使用一个产品时——周末后回来同事们互相说"我看到你去露营了！"——你就知道它会成功</strong>。</p>
+  <p>这个信号在 Instagram Stories 时也出现过。Kevin 认为，对于社交性产品，内部使用度是最可靠的 leading indicator——因为公司本身就是一个紧密的社交网络。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch07">
+  <div class="ch-label">07</div>
+  <h2>Libra：职业生涯最大的遗憾——世界本该有这个产品</h2>
+  <p>Kevin 在 Facebook 主导了 Libra（后来改名 Diem）——一个基于区块链的全球支付系统。他的愿景：<strong>通过 WhatsApp 免费给任何人转 50 美分</strong>。</p>
+  <blockquote>
+    <p>Libra 可能是我职业生涯中最大的遗憾。让我深感失望的是，这个产品今天不存在于世界上——因为世界有了它会更好。</p>
+    <div class="attr">— Kevin Weil</div>
+  </blockquote>
+  <p>项目被监管和政治压力杀死了。Kevin 的反思很微妙：<strong>错不在技术，也不完全在监管——而在 Facebook 的声誉</strong>。如果换一家公司做同样的事，结果可能完全不同。他甚至建议 Facebook 在当前加密友好的政策环境下重新做这件事。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    Libra/Diem 项目的失败是科技行业和监管冲突的标志性案例。美国财政部长 Janet Yellen、法国财长 Bruno Le Maire 和多国央行联合反对。核心担忧不是技术——而是一家已经有 30 亿用户的公司突然成为全球金融基础设施会带来的系统性风险。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch08">
+  <div class="ch-label">08</div>
+  <h2>迭代部署：不是"突然赐予世界"，而是"和社会一起学习"</h2>
+  <p>OpenAI 的产品发布哲学叫"Iterative Deployment"——<strong>早发布、早学习、在公共场域和用户一起进化</strong>。ChatGPT 最初就是一个"低调的研究预览"，团队没有预期它会成为全球现象。</p>
+  <p>这个哲学也体现在 Sam Altman 的行为风格上：他会在 Twitter 上提前展示内部的研究进展，不等到完美再发布。Kevin 说这和其他大公司有根本区别——<strong>大多数公司会把突破藏起来，直到一个大发布会上"惊喜亮相"</strong>。</p>
+  <p>OpenAI 的路线图也极其短视——<strong>不写超过几周的 roadmap，因为底层模型能力每两个月就变一次</strong>。传统的年度计划在这个节奏下完全无效。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch09">
+  <div class="ch-label">09</div>
+  <h2>AI 创业的机会地图：垂直领域 + 行业知识 = OpenAI 不会去做的事</h2>
+  <p>Lenny 问了一个所有创业者都关心的问题：OpenAI 会不会吃掉所有 AI 产品的市场？Kevin 的回答很坦诚：<strong>ChatGPT 会做通用的水平层，但垂直领域需要行业专业知识，那不是我们的专长</strong>。</p>
+  <p>他举了几个不会去碰的领域：<strong>法律 AI、医疗 AI、教育 AI、金融合规 AI</strong>——这些需要深度行业知识、专有数据和特定的合规框架。ChatGPT 可以是基座，但上层应用需要专业团队。</p>
+  <p>他的建议给创业者：<strong>如果你的竞争优势只是"我用了 GPT-4"，你没有竞争优势。如果你的优势是"我理解这个行业 + 我有专有数据 + 我建立了工作流"，那你是安全的</strong>。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch10">
+  <div class="ch-label">10</div>
+  <h2>公司就是一个模型集合体——这个比喻为什么惊人地准确</h2>
+  <p>Kevin 和 Lenny 即兴发展了一个比喻，越说越深：</p>
+  <p>🏢 <strong>公司 = 模型集合体（ensemble）</strong>——每个员工是一个被"微调"过的模型<br>
+  💰 <strong>有些模型（员工）便宜，有些贵</strong>——取决于训练成本（教育 + 经验）<br>
+  ⚡ <strong>有些模型快，有些慢</strong>——取决于问题复杂度<br>
+  🤪 <strong>有些模型会"幻觉"</strong>——有些人确实会胡说<br>
+  🎨 <strong>有些模型是视觉型的，有些是文字型的</strong>——思维方式的差异</p>
+  <p>OpenAI 内部也是这样用模型的：客服系统用 4o-mini 快速回答简单问题，用 o 系列模型处理需要推理的复杂问题。<strong>30-40 个客服人员服务 4 亿多周活用户</strong>——在传统公司需要数千人。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch11">
+  <div class="ch-label">11</div>
+  <h2>教孩子好奇心，而不是编程——因为没人知道 2036 年的世界长什么样</h2>
+  <p>Kevin 有三个孩子（10 岁和 8 岁双胞胎），他们是完全的"AI 原住民"——和 ChatGPT 聊天、坐 Waymo 自动驾驶都觉得理所当然。</p>
+  <p>问到"教孩子学什么"时，Kevin 的回答不是编程也不是 prompt engineering：<strong>好奇心、独立思考、自信</strong>。因为没人知道未来是什么样——但能独立思考的人在任何版本的未来都会有优势。</p>
+  <p>他还说了一句很真诚的话：<strong>个性化 AI 辅导可能是 AI 能做的最重要的事情之一</strong>。每个研究都表明个性化辅导能带来多个标准差的学习提升。ChatGPT 是免费的，模型已经足够好。他惊讶于为什么还没有一个 20 亿孩子在用的 AI 教育产品。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    Kevin 对 AI 教育的热情不是空谈——OpenAI 和 Khan Academy 的合作已经在进行中，Sal Khan 也多次在播客中讨论过 Khanmigo 的进展。但"为什么还没有 20 亿孩子在用"的答案可能很简单：发展中国家的孩子不是不想用，而是没有稳定的网络和设备。基础设施，而不是 AI 能力，才是真正的瓶颈。
+  </div>
+</div>
+
+</div>
+
+<div class="tensions">
+  <h2>编辑手记：三个值得关注的矛盾</h2>
+
+  <div class="ti">
+    <h3>"模型极大主义"是给你的建议，不是给 OpenAI 自己的</h3>
+    <p>Kevin 建议创业者"别修补当前模型的缺陷，等新模型"。但这个建议的隐含前提是：OpenAI 控制着模型升级的节奏和方向。如果你是依赖 OpenAI API 的创业者，你的产品命运实际上取决于 OpenAI 下一个模型的能力方向——这个方向你完全无法控制。"模型极大主义"对模型提供商是理性策略，对生态系统参与者却是风险敞口。</p>
+  </div>
+
+  <div class="ti">
+    <h3>"迭代部署"的透明叙事 vs. 实际的信息不对称</h3>
+    <p>Kevin 把 OpenAI 描述为"和社会一起学习"的公司。但 OpenAI 不再公布模型的技术细节（GPT-4 的论文不包含架构信息），Sam Altman 的 Twitter 预告更像是产品营销而不是"透明"。在实际操作中，OpenAI 比任何传统科技公司都更不透明——因为他们认为这涉及安全。"迭代部署"和"透明"是两码事，但 Kevin 的叙述模糊了这个区别。</p>
+  </div>
+
+  <div class="ti">
+    <h3>"Chat 是终极接口"vs. OpenAI 自己也在做非 Chat 产品</h3>
+    <p>Kevin 认为 Chat 是最通用的接口。但 OpenAI 自己也在做 Canvas（画布）、Operator（自动浏览器）、Sora（视频生成）——这些都不是 Chat。如果 Chat 真的是"终极接口"，为什么还需要这些？更合理的解释可能是：Chat 是一个好的入口，但不是好的工作空间。你通过 Chat 描述需求，但通过其他界面完成工作。Kevin 的"Chat 终极论"可能过度简化了实际的产品形态演化。</p>
+  </div>
+</div>
+
+

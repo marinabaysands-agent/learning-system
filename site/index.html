@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Marina's Learning System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/learning.css">
+<style>
+:root {
+  --bg: oklch(98% 0.005 60);
+  --surface: oklch(100% 0 0);
+  --text: oklch(18% 0.01 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 30);
+  --border: oklch(90% 0.005 60);
+  --note-bg: oklch(96% 0.008 60);
+  --serif: 'Noto Serif SC', 'Newsreader', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+::selection { background: oklch(90% 0.08 30); }
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(48px, 10vw, 96px) clamp(20px, 5vw, 48px);
+}
+@media (min-width: 768px) { .page { max-width: 720px; } }
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.site-desc {
+  font-size: 0.9375rem;
+  color: var(--text3);
+  margin-top: 6px;
+  font-weight: 300;
+}
+
+/* Stats row */
+.stats {
+  display: flex;
+  gap: clamp(16px, 4vw, 32px);
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.stat .n { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.stat .d { font-size: 0.75rem; color: var(--text3); }
+
+/* Section */
+.section { margin-top: 48px; }
+.section-label {
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 16px;
+}
+
+/* Continue reading cards */
+.continue-card {
+  display: block; padding: 20px 0;
+  border-top: 1px solid var(--border);
+  text-decoration: none; color: inherit;
+  transition: opacity 0.15s;
+}
+.continue-card:last-child { border-bottom: 1px solid var(--border); }
+.continue-card:hover { opacity: 0.6; }
+.continue-card .card-title {
+  font-family: var(--serif); font-size: 1rem; font-weight: 600; line-height: 1.4;
+}
+.continue-card .card-meta { font-size: 0.8125rem; color: var(--text3); margin-top: 4px; }
+
+/* Nav links */
+.nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (min-width: 768px) { .nav-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.nav-link {
+  display: block; padding: 20px;
+  border: 1px solid var(--border); border-radius: 8px;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.15s;
+}
+.nav-link:hover { border-color: var(--text3); }
+.nav-link .nav-emoji { font-size: 1.5rem; margin-bottom: 8px; }
+.nav-link .nav-title { font-size: 0.9375rem; font-weight: 500; }
+.nav-link .nav-desc { font-size: 0.8125rem; color: var(--text3); margin-top: 2px; }
+
+.empty-state { font-size: 0.875rem; color: var(--text3); padding: 20px 0; }
+
+.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Learning System</h1>
+  <div class="site-desc">读→划线→对话→内化</div>
+
+  <div class="stats" id="stats">
+    <div class="stat"><div class="n" id="stat-total">—</div><div class="d">文章</div></div>
+    <div class="stat"><div class="n" id="stat-read">—</div><div class="d">已读</div></div>
+    <div class="stat"><div class="n" id="stat-highlights">—</div><div class="d">划线</div></div>
+  </div>
+
+  <!-- Heatmap -->
+  <div id="heatmap-container"></div>
+
+  <div class="section">
+    <div class="section-label">继续阅读</div>
+    <div id="continue-list">
+      <div class="empty-state">暂无阅读中的内容</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">推荐阅读</div>
+    <div id="unread-list">
+      <div class="empty-state">加载中...</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">导航</div>
+    <div class="nav-grid">
+      <a class="nav-link" href="/library/">
+        <div class="nav-emoji">📚</div>
+        <div class="nav-title">内容库</div>
+        <div class="nav-desc">所有文章</div>
+      </a>
+      <a class="nav-link" href="/notes/">
+        <div class="nav-emoji">📝</div>
+        <div class="nav-title">我的笔记</div>
+        <div class="nav-desc">划线 + 批注</div>
+      </a>
+      <a class="nav-link" href="/topics/">
+        <div class="nav-emoji">🏷️</div>
+        <div class="nav-title">主题</div>
+        <div class="nav-desc">按标签浏览</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">Sands 🏖️</div>
+</div>
+
+<script src="/assets/content-data.js"></script>
+<script src="/assets/learning.js"></script>
+<script>
+const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
+
+async function init() {
+  const [progressData, notesData] = await Promise.all([
+    fetch(`${API_BASE}/api/progress`).then(r => r.json()),
+    fetch(`${API_BASE}/api/notes`).then(r => r.json()),
+  ]);
+
+  let readCount = 0, hlCount = 0;
+  const reading = [], unread = [];
+
+  ARTICLES.forEach(a => {
+    const p = progressData[a.id];
+    const n = notesData[a.id];
+    if (n?.highlights) hlCount += n.highlights.length;
+    if (p?.status === 'read') readCount++;
+
+    if (p?.status === 'reading') {
+      reading.push({ ...a, progress: p.read_progress || 0 });
+    } else if (!p || p.status === 'unread') {
+      unread.push(a);
+    }
+  });
+
+  document.getElementById('stat-total').textContent = ARTICLES.length;
+  document.getElementById('stat-read').textContent = readCount;
+  document.getElementById('stat-highlights').textContent = hlCount;
+
+  // Continue reading
+  const continueList = document.getElementById('continue-list');
+  if (reading.length) {
+    continueList.innerHTML = reading.map(a => `
+      <a class="continue-card" href="/articles/${a.id}.html">
+        <div class="card-title">${a.title}</div>
+        <div class="card-meta">${a.guest} · ${Math.round(a.progress * 100)}% 已读</div>
+        <div class="progress-bar"><div class="progress-bar-fill" style="width:${a.progress * 100}%"></div></div>
+      </a>
+    `).join('');
+  }
+
+  // Unread recommendations (show 3)
+  const unreadList = document.getElementById('unread-list');
+  const show = unread.slice(0, 3);
+  if (show.length) {
+    unreadList.innerHTML = show.map(a => `
+      <a class="continue-card" href="/articles/${a.id}.html">
+        <div class="card-title">${a.title}</div>
+        <div class="card-meta">${a.guest} · ${a.duration}</div>
+      </a>
+    `).join('');
+  } else {
+    unreadList.innerHTML = '<div class="empty-state">全部读完了！🎉</div>';
+  }
+
+  // Heatmap
+  initHeatmap('heatmap-container');
+}
+init();
+</script>
+</body>
+</html>

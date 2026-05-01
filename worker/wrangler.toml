@@ -1,0 +1,13 @@
+name = "learning-system-api"
+main = "src/index.js"
+compatibility_date = "2024-09-25"
+
+[vars]
+CORS_ORIGIN = "https://learning.marinago.one"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "73298faa1d7548e7a3e11748aeb5ca8a"
+
+[secrets]
+# DEEPGRAM_API_KEY set via wrangler secret put

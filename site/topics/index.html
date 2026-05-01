@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>主题 — Learning System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/learning.css">
+<style>
+:root {
+  --bg: oklch(98% 0.005 60);
+  --text: oklch(18% 0.01 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 30);
+  --border: oklch(90% 0.005 60);
+  --serif: 'Noto Serif SC', 'Newsreader', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+::selection { background: oklch(90% 0.08 30); }
+.page { max-width: 640px; margin: 0 auto; padding: clamp(48px, 10vw, 96px) clamp(20px, 5vw, 48px); }
+.back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
+.back:hover { color: var(--text); }
+h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; }
+.desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
+
+.topic-card {
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+.topic-card:last-child { border-bottom: 1px solid var(--border); }
+.topic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; }
+.topic-header:hover .topic-name { color: var(--accent); }
+.topic-name { font-family: var(--serif); font-size: 1.125rem; font-weight: 600; transition: color 0.15s; }
+.topic-count { font-size: 0.8125rem; color: var(--text3); }
+.topic-articles { display: none; }
+.topic-card.open .topic-articles { display: block; }
+.topic-article {
+  display: block;
+  padding: 8px 0 8px 16px;
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 0.9375rem;
+  transition: color 0.15s;
+}
+.topic-article:hover { color: var(--text); }
+.topic-article-meta { font-size: 0.75rem; color: var(--text3); }
+
+.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
+.footer a { color: var(--text2); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="/">← 首页</a>
+  <h1>主题</h1>
+  <div class="desc">按标签浏览内容</div>
+
+  <div id="topics-container"></div>
+
+  <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/notes/">笔记</a> · Sands 🏖️</div>
+</div>
+
+<script src="/assets/content-data.js"></script>
+<script>
+// Build topic -> articles map
+const topicMap = {};
+ARTICLES.forEach(a => {
+  a.tags.forEach(t => {
+    if (!topicMap[t]) topicMap[t] = [];
+    topicMap[t].push(a);
+  });
+});
+
+// Sort by count desc
+const sorted = Object.entries(topicMap).sort((a, b) => b[1].length - a[1].length);
+
+const container = document.getElementById('topics-container');
+container.innerHTML = sorted.map(([tag, articles]) => {
+  const tagInfo = TAGS[tag] || { label: tag, color: 'var(--text3)' };
+  return `<div class="topic-card">
+    <div class="topic-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="tag-badge" style="background:${tagInfo.color}">${tagInfo.label}</span>
+      <span class="topic-count">${articles.length} 篇</span>
+    </div>
+    <div class="topic-articles">
+      ${articles.map(a => `
+        <a class="topic-article" href="/articles/${a.id}.html">
+          ${a.title}
+          <div class="topic-article-meta">${a.guest}</div>
+        </a>
+      `).join('')}
+    </div>
+  </div>`;
+}).join('');
+</script>
+</body>
+</html>

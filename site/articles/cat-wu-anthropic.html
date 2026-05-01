@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>给超级 AGI 做产品太容易了——难的是现在 — Product Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: oklch(98% 0.005 60);
+  --text: oklch(18% 0.01 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 30);
+  --border: oklch(90% 0.005 60);
+  --note-bg: oklch(96% 0.008 60);
+  --serif: 'Noto Serif SC', 'Newsreader', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+::selection { background: oklch(90% 0.08 30); }
+
+/* Progress */
+.progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 100; width: 0; }
+
+/* Header */
+.header {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(48px, 10vw, 100px) clamp(20px, 5vw, 48px) 0;
+}
+.header .back {
+  font-size: 0.8125rem;
+  color: var(--text3);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.header .back:hover { color: var(--text); }
+.header h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.625rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 24px;
+  letter-spacing: -0.02em;
+}
+.header .subtitle {
+  font-size: 1rem;
+  color: var(--text2);
+  margin-top: 12px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+.header .meta {
+  font-size: 0.8125rem;
+  color: var(--text3);
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* TLDR */
+.tldr {
+  max-width: 640px;
+  margin: 48px auto 0;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+.tldr-box {
+  border-top: 2px solid var(--text);
+  padding-top: 20px;
+}
+.tldr-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+.tldr-box p {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+.nums {
+  display: flex;
+  gap: clamp(16px, 4vw, 32px);
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.nums .n { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.nums .d { font-size: 0.75rem; color: var(--text3); }
+
+/* TOC */
+.toc {
+  max-width: 640px;
+  margin: 48px auto 0;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+.toc-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.toc ol {
+  list-style: none;
+  columns: 2;
+  column-gap: 32px;
+}
+.toc li { break-inside: avoid; margin-bottom: 5px; }
+.toc a {
+  font-size: 0.875rem;
+  color: var(--text2);
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 0.15s;
+}
+.toc a:hover { color: var(--text); }
+
+@media (max-width: 520px) { .toc ol { columns: 1; } }
+
+/* Article */
+.article {
+  max-width: 640px;
+  margin: 56px auto 0;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.ch { margin-bottom: 48px; }
+.ch-label {
+  font-size: 0.75rem;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.ch h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 16px;
+}
+.ch p {
+  font-size: 0.9375rem;
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+.ch p strong { font-weight: 600; }
+
+/* Blockquote */
+.ch blockquote {
+  margin: 20px 0;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--border);
+}
+.ch blockquote p {
+  font-family: var(--serif);
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--text2);
+  margin: 0;
+}
+.ch blockquote .attr {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  color: var(--text3);
+  font-style: normal;
+  margin-top: 4px;
+}
+
+/* Editor note */
+.ed {
+  margin: 16px 0;
+  padding: 16px 20px;
+  background: var(--note-bg);
+  border-radius: 2px;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--text2);
+}
+.ed .tag {
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+
+/* Separator */
+.sep {
+  width: 24px;
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+/* Tensions */
+.tensions {
+  max-width: 640px;
+  margin: 64px auto 0;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+.tensions > h2 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+.ti { margin-bottom: 28px; }
+.ti h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.ti p {
+  font-size: 0.875rem;
+  line-height: 1.85;
+  color: var(--text2);
+}
+
+/* Footer */
+.footer {
+  max-width: 640px;
+  margin: 80px auto 0;
+  padding: 24px clamp(20px, 5vw, 48px) 48px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  color: var(--text3);
+}
+.footer a { color: var(--text2); text-decoration: none; }
+</style>
+<link rel="stylesheet" href="/assets/learning.css">
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<div class="header">
+  <a class="back" href="/library/">← 内容库</a>
+  <h1>给超级 AGI 做产品太容易了——难的是现在</h1>
+  <div class="subtitle">Anthropic 产品负责人 Cat Wu 谈为什么 PM 最稀缺的技能是「恰好正确程度的 AGI 信仰」</div>
+  <div class="meta">
+    <span>2026.04.23</span>
+    <span>Lenny's Podcast</span>
+    <span>Cat Wu · Anthropic</span>
+    <span>85 min</span>
+    <a href="https://www.youtube.com/watch?v=PplmzlgE0kg" target="_blank" rel="noopener" style="color:var(--text3);font-size:0.8125rem;text-decoration:none">▶ YouTube</a>
+  </div>
+</div>
+
+<div class="tldr">
+  <div class="tldr-box">
+    <div class="tldr-label">30 秒读完</div>
+    <p>Cat Wu 和 Boris Cherny 搭档，把产品功能的交付周期从半年压到了一天。她面试了几百个 PM 候选人，发现大多数人还在用 6-12 个月路线图的思维——但 Anthropic 的节奏是一周甚至一天发布一个功能。这期播客最有价值的不是"怎么做快"，而是 Cat 对 PM 角色根本性变化的思考：当代码变得几乎免费，决定"写什么"和"为谁写"才是真正值钱的能力。</p>
+    <div class="nums">
+      <div><div class="n">1 天</div><div class="d">最短功能交付周期</div></div>
+      <div><div class="n">30%</div><div class="d">Cat 花在推模型极限的时间</div></div>
+      <div><div class="n">30-40</div><div class="d">Anthropic PM 团队规模</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-label">目录</div>
+  <ol>
+    <li><a href="#ch01">与 Boris 搭档：80% 心灵感应</a></li>
+    <li><a href="#ch02">大多数 PM 还活在旧世界</a></li>
+    <li><a href="#ch03">怎么做到一天出一个功能</a></li>
+    <li><a href="#ch04">PRD 没死，但活法不同了</a></li>
+    <li><a href="#ch05">不是最强模型让他们变快的</a></li>
+    <li><a href="#ch06">源代码泄露：流程失败</a></li>
+    <li><a href="#ch07">角色融合：界限在消失</a></li>
+    <li><a href="#ch08">恰好正确的 AGI 信仰</a></li>
+    <li><a href="#ch09">模型升级 = 删功能</a></li>
+    <li><a href="#ch10">从单任务到 Agent 矩阵</a></li>
+    <li><a href="#ch11">自动化 95% = 没做</a></li>
+    <li><a href="#ch12">Just Do Things</a></li>
+  </ol>
+</div>
+
+<div class="article">
+
+<div class="ch" id="ch01">
+  <div class="ch-label">01</div>
+  <h2>与 Boris 搭档：80% 心灵感应，20% 各干各的</h2>
+  <p>Boris 是 Claude Code 的创造者和技术负责人。Cat 用 <strong>"80% mind-meld"</strong> 形容他们的关系。Boris 擅长方向感——三个月后、六个月后产品应该长什么样，那个最 AGI pilled 的版本是什么。Cat 的角色是<strong>把愿景翻译成执行路径</strong>：从现在到那个愿景之间，每一步怎么走。</p>
+  <p>剩下的 20% 是各自特别在意的事情——<strong>谁更在意谁就推</strong>。这种模糊分工看起来不太正统，但正因为模糊，才能快。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    Boris Cherny 也是 O'Reilly《Programming TypeScript》的作者。他 2024 年 9 月加入 Anthropic 后构建了 Claude Code 的第一个终端原型。"AGI pilled"源自"red pilled"（《黑客帝国》），指对 AGI 即将到来持狂热乐观态度。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch02">
+  <div class="ch-label">02</div>
+  <h2>面试几百个 PM 后：大多数人还活在旧世界</h2>
+  <p>Cat 面试了几百人，发现<strong>大多数人对 AI PM 角色的理解方向不对</strong>。</p>
+  <p>AI 出现之前技术变化很慢，PM 做 6-12 个月的规划，代码写起来很贵，核心工作是协调各团队的路线图。但现在模型能力快速提升，<strong>很多功能的交付时间从 6 个月变成 1 个月，有时候 1 周，甚至 1 天</strong>。PM 不应该花精力对齐多季度路线图，而应该想：怎么最快把东西推出去？</p>
+  <blockquote>
+    <p>最好的 AI 产品 PM，能缩短从「有这个想法」到「产品到了用户手里」的时间，并且能定义出产品必须在哪些任务上开箱即用。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch03">
+  <div class="ch-label">03</div>
+  <h2>怎么做到一天出一个功能</h2>
+  <p><strong>第一，设定清晰目标。</strong>大语言模型能力太通用，用户是谁、解决什么问题全都模糊。好的 PM 能把这些定死：核心用户是企业开发者，这个功能解决权限提示疲劳感。目标一旦清楚，就排除了大量方案。</p>
+  <p><strong>第二，Research Preview 机制。</strong>几乎所有功能都先以研究预览形式发布——明确告诉用户这是早期产品、在收集反馈、可能不会永远支持。一两周就能出货。</p>
+  <p><strong>第三，"evergreen launch room"。</strong>工程师觉得功能准备好了，发到这个频道里，文档和市场团队直接跳进来，第二天就完成对外宣传。<strong>搭建这套发布流水线，就是 PM 该干的事。</strong></p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    有人做过日历统计，Anthropic 在 2026 年前几个月几乎每天都有一个重要功能或产品发布。这不是偶然——这正是 Cat 描述的这套系统的直接产出。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch04">
+  <div class="ch-label">04</div>
+  <h2>PRD 没死，但活法不同了</h2>
+  <p><strong>第一，每周做严格的 metrics readout</strong>，整个团队一起看数据，确保每个人都深度理解业务。</p>
+  <p><strong>第二，维护一份 team principles</strong>——谁是核心用户、为什么是他们、愿意做什么取舍。让团队每个人能自己做决策，不等 PM 拍板。</p>
+  <p>PRD 对特别模糊的功能和需要大量基础设施的长期项目还是会写。但大部分功能不需要。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch05">
+  <div class="ch-label">05</div>
+  <h2>不是最强模型让他们变快的</h2>
+  <p>Cat 的回答很直接：<strong>他们已经快了好几个季度了，新模型不是核心原因。</strong>更大的原因是流程和团队期望——每个人都觉得自己有权力也有责任把想法在一周内变成现实。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch06">
+  <div class="ch-label">06</div>
+  <h2>源代码泄露：定性为流程失败</h2>
+  <p>2026 年 3 月底，Claude Code 完整源代码通过 npm 包泄露。原因是<strong>人为错误</strong>——有人用 Claude 写了一个关于包发布流程更新的 PR，经过两层审查但还是漏了。Cat 定性为流程失败，涉事员工仍在公司。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    根本原因是 Bun 运行时默认生成 source map 文件，而 .npmignore 缺少 *.map 条目，导致 59.8 MB 的 source map 发布到公共 npm，暴露约 2,000 个文件、512,000 行源代码、44 个未公开功能标志，以及一个名为 KAIROS 的自主后台 Agent。这是 13 个月内第二次泄露，发生在另一次信息外泄后仅 5 天。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch07">
+  <div class="ch-label">07</div>
+  <h2>角色融合：工程师、PM、设计师的界限在消失</h2>
+  <p>PM 写代码，工程师做产品决策，设计师提交 PR。Anthropic 选的路是<strong>大量招有产品品味的工程师</strong>——很多工程师能独立完成从看到 Twitter 反馈到周末发布的全流程，几乎不需要 PM 参与。</p>
+  <blockquote>
+    <p>当代码变得越来越便宜，真正变得更有价值的是决定写什么。什么是正确的 UX？什么是让用户最愉悦的体验方式？</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+  <blockquote>
+    <p>Product taste 仍然是一种非常稀缺的技能，任何能强有力地展示这种能力的人，我们基本都会录用。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch08">
+  <div class="ch-label">08</div>
+  <h2>最难的技能：恰好正确程度的 AGI 信仰</h2>
+  <p>每个人都能看到终极未来：模型极其聪明，一个输入框搞定一切。<strong>但为那个终极版本做产品太容易了。难的是搞清楚当前模型的能力边界在哪，怎么在边界内榨出最大价值。</strong></p>
+  <blockquote>
+    <p>做到恰好正确程度的 AGI 信仰非常难。太 AGI pilled 会让你忽略眼前用户的痛点，太保守又会在下一次模型升级时措手不及。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+  <p>Cat 的做法：<strong>花 30% 时间故意把产品推到极限</strong>，搞清楚模型为什么在某些任务上犯错。培养方式：大量使用模型并让它自省、找到 5 个信任的 taste evaluator、写 10 个好 eval。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch09">
+  <div class="ch-label">09</div>
+  <h2>模型升级 = 删功能：你的 harness 终会被吃掉</h2>
+  <p>很多产品功能是模型的「拐杖」。早期 Claude Code 做大规模重构时会遗漏 call sites，团队加了 TODO list 强制模型逐一完成。Opus 4 之后模型自然使用 TODO list，不再需要提醒。<strong>每次新模型发布，团队通读整个 system prompt：「模型还需要这个提醒吗？」</strong></p>
+  <blockquote>
+    <p>我们做的很多修改，是删掉不再需要的功能。给产品加功能，本质上是给模型加拐杖。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+  <p>更激进的策略：<strong>提前构建当前还不完全 work 的产品，等模型追上来。</strong>Code Review 试了好几代模型，直到 Opus 4.5/4.6 才达到可靠水平。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch10">
+  <div class="ch-label">10</div>
+  <h2>产品路线：从单任务到 50-100 个并发 Agent</h2>
+  <p>核心构建单元是单个任务的成功率。模型变强 → 单任务成功率上升 → 多任务并行 → 50-100 个 Agent 同时工作。<strong>这条路线从单兵作战走向 Agent 矩阵。</strong></p>
+  <p>关键挑战：如何让用户知道哪些任务需要关注？如何确保 agent 自我验证？这已经不是本地机器能承载的了。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch11">
+  <div class="ch-label">11</div>
+  <h2>自动化 95% = 没有自动化</h2>
+  <p>找到重复性工作交给 AI，<strong>但必须推到 100% 可靠</strong>。大多数人到 90-95% 就放弃了，而 95% 可靠的自动化你根本不敢依赖。</p>
+  <blockquote>
+    <p>如果一个自动化不能 100% 可靠地工作，它就不是自动化。最后 5-10% 确实更费时间，但我鼓励大家投入精力去教会 Claude 你的偏好。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+  <p>另一个反直觉建议：<strong>别做「设置狂魔」</strong>。有些人花太多时间添加 skills 和 MCP，反而忘了核心目标——发布产品。构建你每天真正使用的应用，不是一次性原型。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch12">
+  <div class="ch-label">12</div>
+  <h2>"Just Do Things" — Jobs are fake</h2>
+  <blockquote>
+    <p>Just do things. 我觉得工作是假的。如果你理解约束条件，就能推导出该做什么，然后快速执行、从错误中学习。做错了就道歉、修正。</p>
+    <div class="attr">— Cat Wu</div>
+  </blockquote>
+  <p>Cat 认为每个人都应该在某个时候加入初创公司——没有流程的环境会迫使你学会这种思维方式。</p>
+</div>
+
+</div>
+
+<!-- TENSIONS -->
+<div class="tensions">
+  <h2>编辑手记：三个值得关注的矛盾</h2>
+
+  <div class="ti">
+    <h3>速度文化 vs. 安全承诺</h3>
+    <p>Cat 讲"一天出一个功能""让工程师自主发布"，但 Anthropic 是那家把"安全"写在名片上的公司。一周内两次信息外泄，Cat 的解释都是"人为失误，已加防护"。对速度文化本身是否加剧了这类风险，没有反思。</p>
+  </div>
+
+  <div class="ti">
+    <h3>开放生态 vs. 围墙花园</h3>
+    <p>Cat 对封堵第三方工具的解释在经济逻辑上成立——$200/月的订阅用户通过 Agent 框架可能消耗数千美元算力。但 Anthropic 在自己的 Cowork 推出类似功能之后才封堵第三方通道。"先复制热门功能到封闭 harness，再把开源锁在门外"——这个批评没有正面回应。</p>
+  </div>
+
+  <div class="ti">
+    <h3>PM 角色的存在主义危机</h3>
+    <p>Cat 给出的最高效模式是工程师端到端完成全流程，"几乎不需要 PM"。如果这是真的，PM 的价值在哪？她说 product taste，但始终停留在抽象层面。更深的悖论：如果模型足够强，一个文本框就够了，她所做的产品工作本质上是过渡性的。一个产品负责人承认自己的工作有保质期——这种坦率不常见。</p>
+  </div>
+</div>
+
+<!-- APPENDIX -->
+<div class="article" style="margin-top:48px;">
+  <div class="ch">
+    <div class="ch-label">附录</div>
+    <h2>Cat 的推荐</h2>
+    <p>📚 《How Asia Works》— 什么政策能造就持久的经济体<br>
+    📚 《The Technology Trap》— 技术革命对工人的影响</p>
+    <p>🚗 最爱产品：Waymo — 每天坐两次通勤</p>
+    <p>🧗 AGI 之后的退休计划：搬到法国枫丹白露，每天攀岩</p>
+  </div>
+</div>
+
+

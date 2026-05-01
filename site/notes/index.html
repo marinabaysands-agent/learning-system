@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>我的笔记 — Learning System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/learning.css">
+<style>
+:root {
+  --bg: oklch(98% 0.005 60);
+  --text: oklch(18% 0.01 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 30);
+  --border: oklch(90% 0.005 60);
+  --note-bg: oklch(96% 0.008 60);
+  --serif: 'Noto Serif SC', 'Newsreader', Georgia, serif;
+  --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+::selection { background: oklch(90% 0.08 30); }
+.page { max-width: 640px; margin: 0 auto; padding: clamp(48px, 10vw, 96px) clamp(20px, 5vw, 48px); }
+@media (min-width: 768px) { .page { max-width: 720px; } }
+.back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
+.back:hover { color: var(--text); }
+h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; }
+.stats { display: flex; gap: 24px; margin-top: 12px; font-size: 0.8125rem; color: var(--text3); }
+.stats strong { color: var(--text); font-size: 1.25rem; }
+.desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
+
+.article-group { margin-bottom: 40px; }
+.article-group-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.article-group-title a { color: inherit; text-decoration: none; }
+.article-group-title a:hover { color: var(--accent); }
+.article-group-meta { font-size: 0.8125rem; color: var(--text3); margin-bottom: 16px; }
+
+.note-item {
+  padding: 12px 16px;
+  background: var(--note-bg);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+.note-item .hl-text { cursor: pointer; }
+.note-item .hl-text:hover { opacity: 0.7; }
+.note-item.yellow { border-left: 3px solid oklch(82% 0.15 85); }
+.note-item.green { border-left: 3px solid oklch(78% 0.14 155); }
+.note-item.red { border-left: 3px solid oklch(74% 0.14 25); }
+.note-item .note-annotation {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.empty-state { font-size: 0.9375rem; color: var(--text3); padding: 40px 0; text-align: center; line-height: 2; }
+.empty-state a { color: var(--accent); text-decoration: none; }
+.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
+.footer a { color: var(--text2); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="/">← 首页</a>
+  <h1>我的笔记</h1>
+  <div class="stats" id="stats"></div>
+  <div class="desc">划线 + 批注</div>
+
+  <div id="notes-container">
+    <div class="empty-state">加载中...</div>
+  </div>
+
+  <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/topics/">主题</a> · Sands 🏖️</div>
+</div>
+
+<script src="/assets/content-data.js"></script>
+<script>
+// All known content IDs
+const ALL_ITEMS = [
+  ...ARTICLES.map(a => ({ ...a, type: 'analysis' })),
+  ...(typeof BACKLOG !== 'undefined' ? BACKLOG : [])
+];
+
+function init() {
+  const container = document.getElementById('notes-container');
+  const statsEl = document.getElementById('stats');
+
+  // Scan all localStorage keys for highlights
+  const groups = [];
+  let totalHighlights = 0;
+  let totalNotes = 0;
+
+  ALL_ITEMS.forEach(item => {
+    const key = `hl:${item.id}`;
+    let highlights = [];
+    try { highlights = JSON.parse(localStorage.getItem(key) || '[]'); } catch {}
+    if (!highlights.length) return;
+
+    totalHighlights += highlights.length;
+    totalNotes += highlights.filter(h => h.note).length;
+
+    groups.push({ item, highlights });
+  });
+
+  // Stats
+  statsEl.innerHTML = `
+    <div><strong>${totalHighlights}</strong> 条划线</div>
+    <div><strong>${totalNotes}</strong> 条批注</div>
+    <div><strong>${groups.length}</strong> 篇文章</div>
+  `;
+
+  if (!groups.length) {
+    container.innerHTML = '<div class="empty-state">还没有笔记。<br>去<a href="/library/">内容库</a>阅读文章并划线高亮吧。</div>';
+    return;
+  }
+
+  container.innerHTML = groups.map(({ item, highlights }) => {
+    const href = item.type === 'analysis' ? `/articles/${item.id}.html` : (item.url || '/library/');
+    const meta = [item.guest, item.source].filter(Boolean).join(' · ');
+
+    const hlHtml = highlights
+      .sort((a, b) => (a.position?.start || 0) - (b.position?.start || 0))
+      .map(h => {
+        const color = h.color || 'yellow';
+        const noteHtml = h.note ? `<div class="note-annotation">💬 ${escHtml(h.note)}</div>` : '';
+        return `<div class="note-item ${color}">
+          <div class="hl-text" data-href="${href}">${escHtml(h.text)}</div>
+          ${noteHtml}
+        </div>`;
+      }).join('');
+
+    return `<div class="article-group">
+      <div class="article-group-title"><a href="${href}">${item.title}</a></div>
+      <div class="article-group-meta">${meta}</div>
+      ${hlHtml}
+    </div>`;
+  }).join('');
+
+  // Click highlight text to jump to article
+  container.querySelectorAll('.hl-text[data-href]').forEach(el => {
+    el.addEventListener('click', () => { window.location.href = el.dataset.href; });
+  });
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+init();
+</script>
+</body>
+</html>

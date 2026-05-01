@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>设计流程已死——当工程师同时跑 7 个 Agent，设计师怎么活 — Product Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:oklch(98% 0.005 60);--text:oklch(18% 0.01 60);--text2:oklch(45% 0.01 60);--text3:oklch(62% 0.01 60);--accent:oklch(45% 0.12 30);--border:oklch(90% 0.005 60);--note-bg:oklch(96% 0.008 60);--serif:'Noto Serif SC','Newsreader',Georgia,serif;--sans:'Source Sans 3',-apple-system,system-ui,sans-serif}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.85;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}::selection{background:oklch(90% 0.08 30)}.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:100;width:0}.header{max-width:640px;margin:0 auto;padding:clamp(48px,10vw,100px) clamp(20px,5vw,48px) 0}.header .back{font-size:.8125rem;color:var(--text3);text-decoration:none;letter-spacing:.02em}.header .back:hover{color:var(--text)}.header h1{font-family:var(--serif);font-size:clamp(1.625rem,4vw,2.25rem);font-weight:700;line-height:1.25;margin-top:24px;letter-spacing:-.02em}.header .subtitle{font-size:1rem;color:var(--text2);margin-top:12px;line-height:1.6;font-weight:300}.header .meta{font-size:.8125rem;color:var(--text3);margin-top:20px;display:flex;flex-wrap:wrap;gap:16px}.tldr{max-width:640px;margin:48px auto 0;padding:0 clamp(20px,5vw,48px)}.tldr-box{border-top:2px solid var(--text);padding-top:20px}.tldr-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}.tldr-box p{font-size:.9375rem;line-height:1.8}.nums{display:flex;gap:clamp(16px,4vw,32px);margin-top:20px;flex-wrap:wrap}.nums .n{font-family:var(--serif);font-size:1.5rem;font-weight:700}.nums .d{font-size:.75rem;color:var(--text3)}.toc{max-width:640px;margin:48px auto 0;padding:0 clamp(20px,5vw,48px)}.toc-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}.toc ol{list-style:none;columns:2;column-gap:32px}.toc li{break-inside:avoid;margin-bottom:5px}.toc a{font-size:.875rem;color:var(--text2);text-decoration:none;line-height:1.5;transition:color .15s}.toc a:hover{color:var(--text)}@media(max-width:520px){.toc ol{columns:1}}.article{max-width:640px;margin:56px auto 0;padding:0 clamp(20px,5vw,48px)}.ch{margin-bottom:48px}.ch-label{font-size:.75rem;color:var(--text3);letter-spacing:.05em;margin-bottom:4px}.ch h2{font-family:var(--serif);font-size:clamp(1.125rem,2.5vw,1.375rem);font-weight:600;line-height:1.35;margin-bottom:16px}.ch p{font-size:.9375rem;line-height:1.9;margin-bottom:12px}.ch p strong{font-weight:600}.ch blockquote{margin:20px 0;padding:0 0 0 20px;border-left:2px solid var(--border)}.ch blockquote p{font-family:var(--serif);font-size:.9375rem;font-style:italic;color:var(--text2);margin:0}.ch blockquote .attr{font-family:var(--sans);font-size:.8125rem;color:var(--text3);font-style:normal;margin-top:4px}.ed{margin:16px 0;padding:16px 20px;background:var(--note-bg);border-radius:2px;font-size:.8125rem;line-height:1.75;color:var(--text2)}.ed .tag{font-weight:600;font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}.sep{width:24px;height:1px;background:var(--border);margin:40px 0}.tensions{max-width:640px;margin:64px auto 0;padding:0 clamp(20px,5vw,48px)}.tensions>h2{font-family:var(--serif);font-size:1.25rem;font-weight:600;margin-bottom:28px}.ti{margin-bottom:28px}.ti h3{font-size:.9375rem;font-weight:600;margin-bottom:6px}.ti p{font-size:.875rem;line-height:1.85;color:var(--text2)}.footer{max-width:640px;margin:80px auto 0;padding:24px clamp(20px,5vw,48px) 48px;border-top:1px solid var(--border);font-size:.8125rem;color:var(--text3)}.footer a{color:var(--text2);text-decoration:none}
+</style>
+<link rel="stylesheet" href="/assets/learning.css">
+</head>
+<body>
+<div class="progress" id="prog"></div>
+
+<div class="header">
+  <a class="back" href="/library/">← 内容库</a>
+  <h1>设计流程已死——当工程师同时跑 7 个 Agent，设计师怎么活</h1>
+  <div class="subtitle">Jenny Wen 在 Anthropic 亲历设计角色的彻底重构：从精心制作 Mock 的匠人变成在代码中打磨的最后一公里选手，设计师的生存之道不是抵抗变化，而是重新定义什么才是设计</div>
+  <div class="meta">
+    <span>Lenny's Podcast</span>
+    <span>Jenny Wen · Anthropic, Head of Design (Claude Cowork)</span>
+    <span>~75 min</span>
+    <a href="https://www.youtube.com/watch?v=eh8bcBIAAFo" target="_blank" rel="noopener" style="color:var(--text3);font-size:0.8125rem;text-decoration:none">▶ YouTube</a>
+  </div>
+</div>
+
+<div class="tldr">
+  <div class="tldr-box">
+    <div class="tldr-label">30 秒读完</div>
+    <p>Jenny Wen 在 Figma 做了 Director of Design，现在在 Anthropic 做 IC 设计师——这不是降级，是战略选择。她的核心判断是：设计师被教导的那套"发散-收敛-发散-收敛"设计流程已经死了。当工程师同时跑 7 个 Claude Code agent 每天出几十个 PR，设计师没时间做精美的 Mock——也不应该做。新的设计工作分成两层：帮工程师执行（在代码中打磨最后一公里），和创建 3-6 个月的短期方向（不是 5 年愿景）。以前 60-70% 的时间在做 Mock，现在只有 30-40%。</p>
+    <div class="nums">
+      <div><div class="n">30-40%</div><div class="d">现在做 Mock 的时间占比</div></div>
+      <div><div class="n">10 天</div><div class="d">Cowork 从内部原型到上线</div></div>
+      <div><div class="n">3-6</div><div class="d">月——新的设计愿景周期</div></div>
+      <div><div class="n">3</div><div class="d">种 Jenny 现在最想招的设计师原型</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-label">目录</div>
+  <ol>
+    <li><a href="#ch01">不要信设计流程</a></li>
+    <li><a href="#ch02">两层设计工作</a></li>
+    <li><a href="#ch03">从 Director 回到 IC：不是降级</a></li>
+    <li><a href="#ch04">Cowork 不是 10 天做出来的</a></li>
+    <li><a href="#ch05">在代码里做设计的日常</a></li>
+    <li><a href="#ch06">品味和判断力会被 AI 超越吗</a></li>
+    <li><a href="#ch07">三种设计师原型</a></li>
+    <li><a href="#ch08">中层管理可能消失</a></li>
+    <li><a href="#ch09">Chat 不会消失</a></li>
+    <li><a href="#ch10">对变化的抵抗来自身份认同</a></li>
+    <li><a href="#ch11">设计师的新护城河：决定做什么</a></li>
+  </ol>
+</div>
+
+<div class="article">
+
+<div class="ch" id="ch01">
+  <div class="ch-label">01</div>
+  <h2>"不要信设计流程"——这句话在柏林大会上引爆了设计师圈</h2>
+  <p>Jenny 在柏林一场设计大会上做了一个演讲叫"Don't Trust the Design Process"。她说了一句让台下很多人不舒服的话：<strong>设计师被教导的那套发散-收敛-发散-收敛流程，作为一种信条来遵守的东西，基本上已经死了</strong>。</p>
+  <p>在 AI 之前它就在衰退。但当工程师可以同时跑 7 个 Claude Code agent，快速出原型、直接部署时，<strong>设计师没有时间去做精美的 Mock，也不应该这么做</strong>——因为等 Mock 做完，工程师已经用真实代码试过三个方案了。</p>
+  <blockquote>
+    <p>我三四个月前做那场演讲的时候觉得挺超前的。现在回头看，那场演讲已经过时了——尤其是 Opus 4.6 发布和大家在圣诞假期疯狂使用 Claude Code 之后。</p>
+    <div class="attr">— Jenny Wen</div>
+  </blockquote>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    Jenny 提到这场演讲引发了"相当多的反弹"——很多设计师把整个职业生涯押在了学习、教授和使用这套设计流程上。让他们接受"流程已死"等于让他们接受自己的专业身份需要重建。这种抵抗不是理性的——是情感的、存在的。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch02">
+  <div class="ch-label">02</div>
+  <h2>两层设计工作：支持执行 + 短期方向——不是二选一</h2>
+  <p>Jenny 把当前的设计工作分成两层：</p>
+  <p><strong>第一层：支持实现和执行</strong>。工程师做了一个粗糙版本，设计师和工程师一起打磨——在真实代码中调整间距、颜色、交互细节。<strong>这不是"审批 Mock"，而是并肩创作</strong>。</p>
+  <p><strong>第二层：创建方向</strong>。以前做 2-5 年愿景，现在做 3-6 个月的方向指引。不一定是精美的 Deck——可能只是一个原型或一组设计原则，<strong>让七个 agent 朝同一个方向跑</strong>。</p>
+  <p>第二层是最难挤出时间做的——因为第一层的节奏太快了。但 Jenny 认为第二层更重要：<strong>在人人都能造功能的世界里，指方向的人比造功能的人更稀缺</strong>。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch03">
+  <div class="ch-label">03</div>
+  <h2>从 Figma Director 回到 IC：这不是降级，是战略投资</h2>
+  <p>Jenny 之前在 Figma 管理 12-15 个设计师和几个设计经理。加入 Anthropic 后选择做 IC。她的原因很诚实：<strong>"我在质疑中层管理在未来是否还安全。"</strong></p>
+  <p>做了一年 IC 后，她发现这是最好的决定。因为设计流程在过去一年变化太大——<strong>如果她只在管理层面看，她不可能真正理解一线设计师正在经历什么</strong>。</p>
+  <blockquote>
+    <p>传统上，工程管理岗在入职时会让新人做几个月的 IC 轮岗，先理解技术再做管理。设计可能也需要这样做了。</p>
+    <div class="attr">— Jenny Wen</div>
+  </blockquote>
+  <p>她坦承最大的挑战是重新适应被批评：<strong>做了几年管理后，突然回到 IC 每天接受设计评审（Crit），被同事指出问题——这是一个非常脆弱的体验</strong>。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch04">
+  <div class="ch-label">04</div>
+  <h2>Cowork 不是 10 天做出来的——这个数字掩盖了真正的故事</h2>
+  <p>Boris 在播客中说 Cowork 花了 10 天做出来。Jenny 的澄清："<strong>10 天是从内部已有原型到外部可发布版本的时间。整个探索过程长得多</strong>。"</p>
+  <p>他们做了大量不同形态的原型：Claude 给你待办清单的不同形式、多选问题的不同呈现方式、教用户了解使用场景的不同入口。这些探索没有对外可见——公众看到的只是那个"10 天"。</p>
+  <p>Jenny 说 Cowork 的故事和很多好产品一样：<strong>想法反复出现，时机从来不对，突然有一天时机对了——然后回头看，"这不是一直很明显吗？"</strong></p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    "10 天做出来"的叙事在科技圈非常流行，但几乎总是误导性的。Instagram 是"几周做出来的"——但创始人之前做了两年 Burbn。Claude Code 是"一个人做的 side project"——但 Boris 之前在 Instagram 做了多年工程。快速执行的前提是长期积累。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch05">
+  <div class="ch-label">05</div>
+  <h2>在代码里做设计的日常：我现在直接改代码打磨</h2>
+  <p>Jenny 描述了她的新日常：<strong>大量时间在和工程师一起看他们做的东西、给反馈、白板讨论</strong>。然后她自己用 Claude Code 做"最后一公里打磨"——直接在代码里调整视觉细节。</p>
+  <p>以前的比例：60-70% 的时间在 Mock 和原型上。现在：<strong>Mock 只占 30-40%，其余时间是和工程师协作和写代码</strong>。</p>
+  <p>她仍然做用户研究、仍然做原型、仍然做 Mock——<strong>但工具箱更宽了，每项工具的使用比例在动态变化</strong>。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch06">
+  <div class="ch-label">06</div>
+  <h2>品味和判断力会被 AI 超越吗——Jenny 说我们可能高估了自己</h2>
+  <p>Lenny 引用了 Boris 的观点：Claude Code 正在帮他想出该做什么功能。AI 不仅能执行，还能有品味和判断力。设计师的反应通常是："品味和判断力是人类最后的堡垒。"</p>
+  <p>Jenny 的回答出人意料：<strong>"我们可能太执着于这个想法了。"</strong></p>
+  <blockquote>
+    <p>品味和判断力当然重要。但我们是不是太抓住这一点不放了？也许我们在高估人类的品味，低估模型最终能达到的程度。</p>
+    <div class="attr">— Jenny Wen</div>
+  </blockquote>
+  <p>不过她仍然认为有一个不可自动化的核心：<strong>有人必须为决策负责</strong>。AI 可以建议，但"我们到底要做什么、什么真正重要"——这个决策的责任需要一个人来承担。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch07">
+  <div class="ch-label">07</div>
+  <h2>三种设计师原型：Jenny 现在最想招的人</h2>
+  <p>Jenny 分享了她当前招聘时最感兴趣的三种设计师：</p>
+  <p><strong>🎯 原型一：系统思考者</strong>。能在模糊中看到结构、能把散乱的产品方向变成清晰的框架。这在 AI 产品中特别重要——因为产品形态本身还在被发明。</p>
+  <p><strong>🎯 原型二：能写代码的设计师</strong>。不需要是工程师，但能在真实代码中做打磨。在设计 Mock 和最终产品之间的"最后一公里"，这种人的价值是 10x 的。</p>
+  <p><strong>🎯 原型三：对模型有直觉的设计师</strong>。理解 AI 模型的能力边界——什么它做得好、什么做不好、什么可能在下个月就能做到。这种"模型直觉"正在成为 AI 时代设计师最稀缺的技能。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch08">
+  <div class="ch-label">08</div>
+  <h2>中层管理可能消失——但"给方向 + 带人"的角色会存在</h2>
+  <p>Jenny 对管理的看法很直白：<strong>纯粹的 people management——一对一、职业规划、情感支持——作为独立角色可能不再持续</strong>。</p>
+  <p>但如果管理者能做两件事的结合——<strong>给团队方向（产品判断）+ 创造好的工作环境（管理技能）</strong>——这个角色会存在。关键区别：<strong>管理者必须能和团队一起参与工作本身，不能只做"人的管理"</strong>。</p>
+  <p>这和 Brian Chesky 说的"公司里不应该有纯粹的人员管理者"几乎完全一致——从两个完全不同的方向得出了同样的结论。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch09">
+  <div class="ch-label">09</div>
+  <h2>Chat 不会消失——但 UI 和 Chat 会共存</h2>
+  <p>Lenny 问 Jenny 对 AI 界面终极形态的看法。她的判断是：<strong>Chat 不会消失，因为它给了无限的灵活性</strong>。Claude 最近推出的 Widget（天气、股票等交互组件）反响很好，因为人们仍然喜欢看到和点击 UI。</p>
+  <p>但未来的 UI 不会是设计师手工编码每一个组件——<strong>更多 UI 将由模型实时生成</strong>。Chat 是通用层，UI 是特定场景的优化层。两者共存。</p>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch10">
+  <div class="ch-label">10</div>
+  <h2>对变化的抵抗来自身份认同——不是理性判断</h2>
+  <p>Jenny 注意到设计师社区对她"设计流程已死"演讲的反弹，根源不是技术判断的分歧——<strong>是身份认同的威胁</strong>。</p>
+  <p>当你花了整个职业生涯学习、教授、践行一套方法论，有人说它过时了——你感到的不是"这个观点有争议"，而是"我这个人被否定了"。</p>
+  <p>她的建议是接受变化的不舒服——<strong>而不是用"我们不能没有 discovery"这样的论证来保护自己的舒适区</strong>。</p>
+  <div class="ed">
+    <div class="tag">编者注</div>
+    这种身份认同驱动的抵抗在每次技术变革中都出现过。Web 设计师抵抗移动设计，平面设计师抵抗 Web 设计，排版工人抵抗桌面出版。每次的叙事都是"新方法会牺牲质量"，每次最终的结果都是：不适应的人被边缘化，适应的人获得了更大的影响力。
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="ch" id="ch11">
+  <div class="ch-label">11</div>
+  <h2>设计师的新护城河：决定做什么——而不是如何做</h2>
+  <p>整期播客的底层信息可以提炼为一句话：<strong>设计师的价值正在从"如何做"转向"做什么"</strong>。</p>
+  <p>"如何做"——排版、间距、颜色、动效——正在被工具和模型大幅简化。"做什么"——在无限可能中选择正确的方向、为决策负责、确保所有人朝同一个目标前进——<strong>这是 AI 无法替代的，因为这需要上下文判断和问责</strong>。</p>
+  <p>Jenny 的个人座右铭是"Whatever it takes"——无论是做 IC 还是做管理，无论是画 Mock 还是写代码，目标只有一个：<strong>帮团队做出最好的产品</strong>。</p>
+</div>
+
+</div>
+
+<div class="tensions">
+  <h2>编辑手记：三个值得关注的矛盾</h2>
+
+  <div class="ti">
+    <h3>"设计流程已死"vs. 她自己还在做设计流程中的每一步</h3>
+    <p>Jenny 说传统设计流程"基本上死了"。但在描述自己的日常时，她说"我们仍然做用户研究、仍然做原型、仍然做 Mock"——只是比例变了。这不是"设计流程已死"，而是"设计流程的各步骤比例在动态调整"。前者是一个强观点，后者是一个温和的观察。她用了强观点来吸引注意力，但实际立场是温和的。这没什么错——但听众需要意识到标题和内容之间的差距。</p>
+  </div>
+
+  <div class="ti">
+    <h3>Anthropic 前沿经验的可迁移性问题</h3>
+    <p>Jenny 的所有洞察都来自 Anthropic——一家模型能力每两个月翻倍、工程师人均生产力在行业最前沿的公司。但大多数设计师不在 Anthropic 工作。他们在 B2B SaaS 公司、在电商公司、在金融科技公司——这些公司的工程效率提升速度远低于 AI 前沿公司。"让工程师先做、设计师后打磨"这个模式的前提是工程师确实能快速出高质量原型。如果工程团队还在用传统方式写代码，设计师放弃 Mock 就等于放弃了自己的影响力。</p>
+  </div>
+
+  <div class="ti">
+    <h3>"品味可能被高估了"vs. 这个判断本身就需要品味</h3>
+    <p>Jenny 说设计师可能"太执着于品味和判断力是人类最后的堡垒"。这是一个需要极好品味才能做出的判断——你必须知道品味是什么、它的边界在哪里、AI 在哪些方面可能达到同等水平。如果品味真的可以被 AI 替代，那 Jenny 自己的价值也可以被替代。她要么知道这一点但选择不讨论，要么认为自己的品味足够独特不会被替代。无论哪种，她没有把这个推论推到逻辑终点。</p>
+  </div>
+</div>
+
+
