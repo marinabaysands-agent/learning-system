@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>{{title}} — Product Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+{{inlineStyles}}
+<link rel="stylesheet" href="/assets/learning.css?v=20260502">
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+{{bodyContent}}
+
+<script src="/assets/content-data.js?v=20260502"></script>
+<script src="/assets/learning.js?v=20260502"></script>
+<script>
+  const contentId = '{{id}}';
+  initHighlights(contentId);
+  initProgress(contentId);
+</script>
+</body>
+</html>

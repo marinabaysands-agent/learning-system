@@ -234,9 +234,40 @@
 
 /* ===================== DESKTOP RESPONSIVE ===================== */
 @media (min-width: 768px) {
-  /* Center article content */
+  /* --- Article page --- */
   .header, .article, .tldr, .toc, .tensions {
-    max-width: 720px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .article .ch p,
+  .article .ch li {
+    font-size: 1rem;
+    line-height: 2;
+  }
+  .article .ch h2 {
+    font-size: 1.375rem;
+  }
+
+  /* Progress bar always visible on desktop */
+  .progress { display: block; }
+
+  /* Highlight bar: float above selection on desktop */
+  .hl-bar {
+    position: fixed;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(-8px);
+    width: auto;
+    border-radius: 12px;
+    border-top: none;
+    border: 1px solid oklch(90% 0.005 60);
+    padding: 10px 20px;
+    box-shadow: 0 4px 24px oklch(0% 0 0 / 0.12);
+  }
+  .hl-bar.show {
+    transform: translateX(-50%) translateY(-8px);
   }
 
   /* Note overlay as centered modal instead of bottom sheet */
@@ -257,10 +288,54 @@
     max-width: 420px;
   }
 
-  /* Heatmap doesn't need scroll on desktop */
+  /* --- Homepage --- */
   .heatmap-body {
     overflow-x: visible;
   }
+  .heatmap-wrapper {
+    max-width: 100%;
+  }
+
+  /* --- Library page --- */
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: visible;
+  }
+
+  /* --- Topics page --- */
+  .topic-card {
+    max-width: 100%;
+  }
+}
+
+/* ===================== DESKTOP WIDE: TOC SIDEBAR ===================== */
+@media (min-width: 1024px) {
+  /* Article page: content stays centered, TOC becomes fixed sidebar */
+  .header, .article, .tldr, .tensions {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .toc {
+    position: fixed;
+    top: 80px;
+    left: max(16px, calc(50% - 340px - 260px));
+    width: 220px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    padding: 0 16px 0 0;
+    margin: 0;
+    z-index: 100;
+  }
+  .toc ol { columns: 1; }
+  .toc .toc-label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .toc a { font-size: 0.8125rem; line-height: 1.6; }
 }
 
 /* ===================== ANIMATIONS ===================== */

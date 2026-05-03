@@ -330,7 +330,9 @@ function initProgress(contentId) {
         logActivity(contentId, 'read');
       }
 
-      if (!initProgress._lastSave || Date.now() - initProgress._lastSave > 5000) {
+      // Only save progress when user has scrolled meaningfully (>5%)
+      // This prevents page-load scroll events from overwriting real progress
+      if (pct > 0.05 && (!initProgress._lastSave || Date.now() - initProgress._lastSave > 5000)) {
         initProgress._lastSave = Date.now();
         const status = pct > 0.9 ? 'read' : 'reading';
         api.put('/api/progress', { contentId, status, read_progress: pct });

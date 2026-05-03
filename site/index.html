@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css">
+<link rel="stylesheet" href="/assets/learning.css?v=20260502">
 <style>
 :root {
   --bg: oklch(98% 0.005 60);
@@ -154,11 +154,9 @@ h1 {
   <div class="footer">Sands 🏖️</div>
 </div>
 
-<script src="/assets/content-data.js"></script>
-<script src="/assets/learning.js"></script>
+<script src="/assets/content-data.js?v=20260502"></script>
+<script src="/assets/learning.js?v=20260502"></script>
 <script>
-const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
-
 async function init() {
   const [progressData, notesData] = await Promise.all([
     fetch(`${API_BASE}/api/progress`).then(r => r.json()),
