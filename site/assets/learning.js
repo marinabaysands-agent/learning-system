@@ -102,14 +102,15 @@ function initHighlights(contentId) {
     if (!art) { pendingSelection = null; bar.classList.remove('show'); return; }
     const range = sel.getRangeAt(0);
     pendingSelection = { text, position: getTextPosition(art, range) };
-    bar.classList.add('show');
-    // Desktop: position bar above selection
+    // Position and show bar
     if (window.innerWidth >= 768) {
-      const rect = sel.getRangeAt(0).getBoundingClientRect();
+      const rect = range.getBoundingClientRect();
       bar.style.position = 'absolute';
-      bar.style.top = (window.scrollY + rect.top - bar.offsetHeight - 8) + 'px';
+      bar.style.top = (window.scrollY + rect.top - 60) + 'px';
       bar.style.left = (rect.left + rect.width / 2) + 'px';
     }
+    bar.classList.add('show');
+    console.log('[HL] bar shown, text:', text.slice(0, 30));
   }
 
   let timer = null;
