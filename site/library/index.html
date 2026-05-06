@@ -6,34 +6,37 @@
 <title>内容库 — Learning System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260506">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/learning.css?v=20260506b">
 <style>
 :root {
-  --bg: oklch(98% 0.005 60);
+  --bg: oklch(98.5% 0.003 60);
   --surface: oklch(100% 0 0);
-  --text: oklch(18% 0.01 60);
-  --text2: oklch(45% 0.01 60);
-  --text3: oklch(62% 0.01 60);
-  --accent: oklch(45% 0.12 30);
-  --border: oklch(90% 0.005 60);
-  --serif: 'Noto Serif SC', 'Newsreader', Georgia, serif;
+  --text: oklch(15% 0.01 60);
+  --text2: oklch(50% 0.01 60);
+  --text3: oklch(65% 0.01 60);
+  --accent: oklch(45% 0.10 30);
+  --border: oklch(92% 0.003 60);
+  --serif: 'Noto Serif SC', Georgia, serif;
   --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
-::selection { background: oklch(90% 0.08 30); }
-.page { max-width: 640px; margin: 0 auto; padding: clamp(48px, 10vw, 96px) clamp(20px, 5vw, 48px); }
+::selection { background: oklch(90% 0.06 30); }
+
+.page { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+@media (min-width: 1400px) { .page { max-width: 1100px; } }
+
 .back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
 .back:hover { color: var(--text); }
-h1 { font-family: var(--serif); font-size: clamp(1.75rem, 3.5vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; }
+h1 { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; line-height: 1.3; }
 .desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; }
 
 /* Filters */
 .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
 .filter-btn {
-  font-size: 0.75rem;
-  padding: 5px 14px;
+  font-size: 0.8125rem;
+  padding: 6px 16px;
   border: 1px solid var(--border);
   border-radius: 100px;
   background: none;
@@ -42,177 +45,192 @@ h1 { font-family: var(--serif); font-size: clamp(1.75rem, 3.5vw, 2.25rem); font-
   font-family: var(--sans);
   transition: all 0.15s;
 }
-.filter-btn:hover { border-color: var(--text3); }
-.filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.filter-btn:hover { border-color: var(--text3); color: var(--text); }
+.filter-btn.active { background: var(--text); color: white; border-color: var(--text); }
 
-.ep-list { margin-top: 32px; display: grid; grid-template-columns: 1fr; gap: 16px; }
-.ep-list > * { display: flex; flex-direction: column; }
-.ep-link {
-  display: flex !important; flex-direction: column !important;
+/* Card Grid */
+.card-grid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (min-width: 1400px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Card */
+.card {
+  display: block;
   padding: 24px 28px;
   background: var(--surface);
-  border-radius: 14px;
-  box-shadow: 0 2px 12px oklch(0% 0 0 / 0.10), 0 0 0 1px oklch(0% 0 0 / 0.04);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.04), 0 4px 12px oklch(0% 0 0 / 0.06);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-  overflow: hidden;
-  min-width: 0;
-  min-height: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.ep-link:hover { transform: translateY(-3px); box-shadow: 0 8px 24px oklch(0% 0 0 / 0.12); }
-.ep-link:hover .ep-title { color: var(--accent); }
-.ep-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-.ep-date { font-size: 0.75rem; color: var(--text3); }
-.ep-title {
-  font-family: var(--serif); font-size: 1.05rem; font-weight: 600; line-height: 1.4;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.10);
+}
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   transition: color 0.15s;
 }
-.ep-sub {
-  font-size: 0.8125rem; color: var(--text2); margin-top: 6px; line-height: 1.5;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+.card:hover .card-title { color: var(--accent); }
+.card-sub {
+  font-size: 0.8125rem;
+  color: var(--text2);
+  margin-top: 8px;
+  line-height: 1.5;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.ep-tags { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: var(--text3);
+}
+.card-meta { white-space: nowrap; }
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.progress-bar { width: 100%; height: 4px; background: oklch(92% 0.003 60); border-radius: 2px; margin-top: 12px; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+.status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.status-dot.reading { background: var(--accent); }
+.status-dot.read { background: oklch(60% 0.10 150); }
+
 .footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
 .footer a { color: var(--text2); text-decoration: none; }
-
-@media (min-width: 768px) {
-  .page { max-width: 880px; }
-  .ep-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .filters { flex-wrap: nowrap; }
-}
-@media (min-width: 1200px) {
-  .page { max-width: 1100px; }
-  .ep-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+.footer a:hover { color: var(--text); }
 </style>
 </head>
 <body>
 <div class="page">
   <a class="back" href="/">← 首页</a>
   <h1>内容库</h1>
-  <div class="desc" id="count">11 篇深度分析</div>
-  
-  <div class="filters" id="type-filters" style="margin-top:16px">
-    <button class="filter-btn type-btn active" data-type="all">全部</button>
-    <button class="filter-btn type-btn" data-type="analysis">深度分析</button>
-    <button class="filter-btn type-btn" data-type="book">📚 书</button>
-    <button class="filter-btn type-btn" data-type="video">🎬 视频</button>
-    <button class="filter-btn type-btn" data-type="article">📄 文章</button>
+  <div class="desc" id="count"></div>
+
+  <div class="filters" id="type-filters">
+    <button class="filter-btn active" data-type="all">全部</button>
+    <button class="filter-btn" data-type="analysis">播客分析</button>
+    <button class="filter-btn" data-type="book">书</button>
+    <button class="filter-btn" data-type="video">视频</button>
+    <button class="filter-btn" data-type="article">文章</button>
   </div>
 
-  <div class="filters" id="filters">
+  <div class="filters" id="status-filters">
     <button class="filter-btn active" data-filter="all">全部</button>
     <button class="filter-btn" data-filter="unread">未读</button>
     <button class="filter-btn" data-filter="reading">阅读中</button>
     <button class="filter-btn" data-filter="read">已读</button>
-
   </div>
 
-  <div class="ep-list" id="ep-list"></div>
+  <div class="card-grid" id="card-grid"></div>
 
-  <div class="footer"><a href="/">首页</a> · <a href="/notes/">笔记</a> · <a href="/topics/">主题</a> · Sands 🏖️</div>
+  <div class="footer"><a href="/">首页</a> · <a href="/notes/">笔记</a> · <a href="/topics/">主题</a></div>
 </div>
 
-<script src="/assets/content-data.js?v=20260506"></script>
+<script src="/assets/content-data.js?v=20260506b"></script>
 <script>
 const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
 let currentFilter = 'all';
 let currentType = 'all';
 let progressData = {};
 
-// Combine articles (with analysis) and backlog items
 const ALL_ITEMS = [
   ...ARTICLES.map(a => ({ ...a, type: 'analysis' })),
   ...(typeof BACKLOG !== 'undefined' ? BACKLOG : [])
 ];
 
 async function init() {
-  progressData = await fetch(`${API_BASE}/api/progress`).then(r => r.json());
-  
-  // Status filter buttons
-  document.querySelectorAll('.filter-btn:not(.type-btn)').forEach(btn => {
+  try { progressData = await fetch(`${API_BASE}/api/progress`).then(r => r.json()); } catch {}
+
+  document.querySelectorAll('#status-filters .filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn:not(.type-btn)').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#status-filters .filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
       render();
     });
   });
 
-  // Type filter buttons
-  document.querySelectorAll('.type-btn').forEach(btn => {
+  document.querySelectorAll('#type-filters .filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentType = btn.dataset.type;
       render();
     });
   });
-  
+
   render();
 }
 
 function getStatus(id) {
-  const p = progressData[id];
-  return p?.status || 'unread';
+  return progressData[id]?.status || 'unread';
 }
 
-function statusLabel(s) {
-  const labels = { unread: '未读', reading: '阅读中', read: '已读' };
-  return labels[s] || s;
-}
-
-function typeIcon(t) {
-  const icons = { analysis: '🎙️', book: '📚', video: '🎬', article: '📄' };
-  return icons[t] || '';
+function makeTag(tagId) {
+  const tag = TAGS[tagId];
+  if (!tag) return '';
+  // Extract hue from tag color string like "oklch(58% 0.08 280)"
+  const match = tag.color.match(/(\d+)\s*\)$/);
+  const hue = match ? match[1] : '60';
+  const bg = `oklch(94% 0.015 ${hue})`;
+  const fg = `oklch(40% 0.05 ${hue})`;
+  return `<span class="tag" style="background:${bg};color:${fg}">${tag.label}</span>`;
 }
 
 function render() {
-  const list = document.getElementById('ep-list');
+  const grid = document.getElementById('card-grid');
   const filtered = ALL_ITEMS.filter(a => {
     if (currentFilter !== 'all' && getStatus(a.id) !== currentFilter) return false;
     if (currentType !== 'all' && a.type !== currentType) return false;
     return true;
   });
 
-  list.innerHTML = filtered.map(a => {
+  document.getElementById('count').textContent = `${filtered.length} 篇`;
+
+  grid.innerHTML = filtered.map(a => {
     const status = getStatus(a.id);
     const p = progressData[a.id];
-    const tags = a.tags.map(t => {
-      const tag = TAGS[t];
-      return tag ? `<span class="tag-badge" style="background:${tag.color}">${tag.label}</span>` : '';
-    }).join('');
-    const progressBar = status === 'reading' && p?.read_progress
-      ? `<div class="progress-bar"><div class="progress-bar-fill" style="width:${p.read_progress * 100}%"></div></div>` : '';
-    
+    const tags = a.tags.slice(0, 3).map(makeTag).join(' ');
     const href = a.type === 'analysis' ? `/articles/${a.id}.html` : (a.url || '#');
-    const target = (a.url && a.type !== 'analysis') ? ' target="_blank" rel="noopener"' : '';
-    const guestLine = a.guest ? `${a.guest} · ` : '';
-    const durationLine = a.duration ? a.duration : a.source;
-    const dateLine = a.date ? `<span class="ep-date">${a.date}</span>` : '';
-    const ytLink = a.sourceUrl ? `<a href="${a.sourceUrl}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--text3);text-decoration:none;margin-left:4px" onclick="event.stopPropagation()">▶ YouTube</a>` : '';
+    const target = (a.url && a.type !== 'analysis') ? ' target="_blank"' : '';
+    const meta = [a.guest, a.duration || a.source].filter(Boolean).join(' · ');
+    const progressBar = (status === 'reading' && p?.read_progress)
+      ? `<div class="progress-bar"><div class="progress-fill" style="width:${p.read_progress * 100}%"></div></div>` : '';
+    const statusDot = status !== 'unread' ? `<span class="status-dot ${status}"></span>` : '';
 
-    return `<a class="ep-link" href="${href}"${target}>
-      <div class="ep-top">
-        <span class="ep-date">${typeIcon(a.type)} ${guestLine}${durationLine}</span>
-        ${dateLine}${ytLink}
-        <span class="status-badge ${status}">${statusLabel(status)}</span>
+    return `<a class="card" href="${href}"${target}>
+      <div class="card-title">${a.title}</div>
+      <div class="card-sub">${a.subtitle}</div>
+      <div class="card-footer">
+        ${statusDot}<span class="card-meta">${meta}</span>
+        ${tags}
       </div>
-      <div class="ep-title">${a.title}</div>
-      <div class="ep-sub">${a.subtitle}</div>
-      <div class="ep-tags">${tags}</div>
       ${progressBar}
     </a>`;
   }).join('');
-
-  document.getElementById('count').textContent = `${filtered.length} 篇`;
 }
 
 init();
