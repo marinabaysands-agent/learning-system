@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260502">
+<link rel="stylesheet" href="/assets/learning.css?v=20260505">
 <style>
 :root {
   --bg: oklch(98% 0.005 60);
@@ -71,13 +71,16 @@ h1 {
 
 /* Continue reading cards */
 .continue-card {
-  display: block; padding: 20px 0;
-  border-top: 1px solid var(--border);
+  display: block; padding: 20px 24px;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 1px 4px oklch(0% 0 0 / 0.06);
   text-decoration: none; color: inherit;
-  transition: opacity 0.15s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 12px;
 }
-.continue-card:last-child { border-bottom: 1px solid var(--border); }
-.continue-card:hover { opacity: 0.6; }
+.continue-card:last-child { margin-bottom: 0; }
+.continue-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px oklch(0% 0 0 / 0.08); }
 .continue-card .card-title {
   font-family: var(--serif); font-size: 1rem; font-weight: 600; line-height: 1.4;
 }
@@ -88,11 +91,13 @@ h1 {
 @media (min-width: 768px) { .nav-grid { grid-template-columns: 1fr 1fr 1fr; } }
 .nav-link {
   display: block; padding: 20px;
-  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface);
+  border: none; border-radius: 12px;
+  box-shadow: 0 1px 4px oklch(0% 0 0 / 0.06);
   text-decoration: none; color: inherit;
-  transition: border-color 0.15s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.nav-link:hover { border-color: var(--text3); }
+.nav-link:hover { transform: translateY(-2px); box-shadow: 0 4px 16px oklch(0% 0 0 / 0.08); }
 .nav-link .nav-emoji { font-size: 1.5rem; margin-bottom: 8px; }
 .nav-link .nav-title { font-size: 0.9375rem; font-weight: 500; }
 .nav-link .nav-desc { font-size: 0.8125rem; color: var(--text3); margin-top: 2px; }
@@ -154,8 +159,8 @@ h1 {
   <div class="footer">Sands 🏖️</div>
 </div>
 
-<script src="/assets/content-data.js?v=20260502"></script>
-<script src="/assets/learning.js?v=20260502"></script>
+<script src="/assets/content-data.js?v=20260505"></script>
+<script src="/assets/learning.js?v=20260505"></script>
 <script>
 async function init() {
   const [progressData, notesData] = await Promise.all([

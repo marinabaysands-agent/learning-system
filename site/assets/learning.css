@@ -254,20 +254,25 @@
 
   /* Highlight bar: float above selection on desktop */
   .hl-bar {
-    position: fixed;
+    position: absolute;
     bottom: auto;
-    left: 50%;
+    left: auto;
     right: auto;
-    transform: translateX(-50%) translateY(-8px);
     width: auto;
     border-radius: 12px;
     border-top: none;
     border: 1px solid oklch(90% 0.005 60);
     padding: 10px 20px;
     box-shadow: 0 4px 24px oklch(0% 0 0 / 0.12);
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
   }
   .hl-bar.show {
-    transform: translateX(-50%) translateY(-8px);
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   /* Note overlay as centered modal instead of bottom sheet */

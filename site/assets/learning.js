@@ -103,6 +103,13 @@ function initHighlights(contentId) {
     const range = sel.getRangeAt(0);
     pendingSelection = { text, position: getTextPosition(art, range) };
     bar.classList.add('show');
+    // Desktop: position bar above selection
+    if (window.innerWidth >= 768) {
+      const rect = sel.getRangeAt(0).getBoundingClientRect();
+      bar.style.position = 'absolute';
+      bar.style.top = (window.scrollY + rect.top - bar.offsetHeight - 8) + 'px';
+      bar.style.left = (rect.left + rect.width / 2) + 'px';
+    }
   }
 
   let timer = null;

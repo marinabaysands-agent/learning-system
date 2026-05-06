@@ -24,7 +24,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=We7BZVKbCVw',
     guest: 'Boris Cherny · Anthropic',
     duration: '~90 min',
-    date: '2026-04-22',
+    date: '2026-02-19',
     tags: ['ai-product', 'engineering', 'future-of-work'],
     prompts: [
       'Boris 说他不手写代码了——但"不写代码"和"不理解代码"是两回事。你觉得 PM 需要理解代码到什么程度？',
@@ -40,7 +40,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=4ef0juAMqoE',
     guest: 'Brian Chesky · Airbnb',
     duration: '73 min',
-    date: '2026-04-10',
+    date: '2023-11-12',
     tags: ['leadership', 'product-management', 'focus', 'org-design'],
     prompts: [
       'Chesky 砍掉 80% 项目反而更快——你团队里有什么项目其实可以砍？砍不掉的原因是什么？',
@@ -56,7 +56,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=scsW6_2SPC4',
     guest: 'Kevin Weil · OpenAI',
     duration: '~90 min',
-    date: '2026-04-15',
+    date: '2025-04-10',
     tags: ['ai-product', 'product-management', 'strategy'],
     prompts: [
       '"今天的 AI 是最差的"——如果你接受这个前提，你现在做的产品决策中有哪些会改变？',
@@ -72,7 +72,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=YP_QghPLG-8',
     guest: 'Shreyas Doshi · 前 Stripe/Twitter/Google',
     duration: '~40 min',
-    date: '2026-04-08',
+    date: '2022-08-25',
     tags: ['product-management', 'decision-making', 'self-reflection'],
     prompts: [
       'Shreyas 的四个问题里，哪个对你当前最有冲击力？为什么？',
@@ -88,7 +88,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=87Pm0SGTtN8',
     guest: 'Marc Andreessen · a16z',
     duration: '~120 min',
-    date: '2026-04-12',
+    date: '2026-01-29',
     tags: ['ai-product', 'strategy', 'future-of-work', 'venture-capital'],
     prompts: [
       'Marc 说过去 50 年技术在很多领域停滞了——你在自己的行业里有没有感受到这种停滞？',
@@ -104,7 +104,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=9N4ZgNaWvI0',
     guest: 'Marty Cagan · SVPG',
     duration: '~75 min',
-    date: '2026-04-05',
+    date: '2024-03-10',
     tags: ['product-management', 'org-design', 'leadership'],
     prompts: [
       'Cagan 说 90% 的 PM 是项目经理——你自己日常工作中，"产品发现"和"项目管理"的时间比例是多少？',
@@ -120,7 +120,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=bhnfZhJWCWY',
     guest: 'Nikita Bier · 连续创业者',
     duration: '~90 min',
-    date: '2026-04-01',
+    date: '2024-08-25',
     tags: ['growth', 'consumer-product', 'viral-loops'],
     prompts: [
       'Nikita 经历了 15 个失败——你觉得大多数人在第几次失败后会放弃？什么让他继续？',
@@ -136,7 +136,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=m7LvNTbaqSI',
     guest: 'Dalton Caldwell · YC',
     duration: '~80 min',
-    date: '2026-03-28',
+    date: '2024-04-18',
     tags: ['startup', 'strategy', 'decision-making'],
     prompts: [
       'Dalton 说死因从来不是没钱——你见过什么项目/产品的死因表面看是资源不够，实际是什么？',
@@ -152,7 +152,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=2XgU6T4DalY',
     guest: 'Elizabeth Stone · Netflix',
     duration: '~60 min',
-    date: '2026-03-25',
+    date: '2024-02-22',
     tags: ['leadership', 'org-design', 'hiring', 'culture'],
     prompts: [
       'Netflix 的 Keeper Test：如果这个人要离职，你会努力挽留吗？对你团队里的每个人，答案是什么？',
@@ -168,7 +168,7 @@ const ARTICLES = [
     sourceUrl: 'https://www.youtube.com/watch?v=eh8bcBIAAFo',
     guest: 'Jenny Wen · Anthropic',
     duration: '~75 min',
-    date: '2026-04-25',
+    date: '2026-03-01',
     tags: ['design', 'ai-product', 'future-of-work'],
     prompts: [
       'Jenny 说设计师的护城河不再是美学——你觉得在 AI 时代，"品味"具体指什么？',
@@ -220,7 +220,7 @@ const BACKLOG = [
     source: '书籍',
     guest: '丹尼尔·平克',
     type: 'book',
-    date: '2026-04-29',
+    date: '2005-03-24',
     tags: ['future-of-work', 'design'],
     prompts: [
       '平克 20 年前提的六大能力，哪个你最缺？在 AI 时代哪个最值钱？',
@@ -234,7 +234,7 @@ const BACKLOG = [
     source: '书籍',
     guest: '飞蛾故事会',
     type: 'book',
-    date: '2026-04-29',
+    date: '2022-04-26',
     tags: ['storytelling', 'product-management'],
     prompts: [
       '你能用飞蛾的方法，把自己最近做的一件事讲成一个故事吗？',
@@ -248,7 +248,7 @@ const BACKLOG = [
     source: '书籍',
     guest: 'April Dunford',
     type: 'book',
-    date: '2026-04-29',
+    date: '2019-05-14',
     tags: ['positioning', 'gtm', 'product-management'],
     prompts: [
       '你的产品的竞争性替代方案是什么？如果你不存在，客户会怎么办？',
@@ -262,7 +262,7 @@ const BACKLOG = [
     source: '书籍',
     guest: 'Madhavan Ramanujam & Georg Tacke',
     type: 'book',
-    date: '2026-04-29',
+    date: '2016-05-02',
     tags: ['pricing', 'product-management', 'strategy'],
     prompts: [
       '你现在的产品定价是怎么定的？有没有在研发前就验证过支付意愿？',
@@ -276,7 +276,7 @@ const BACKLOG = [
     source: '书籍',
     guest: '',
     type: 'book',
-    date: '2026-04-29',
+    date: '2019-11-01',
     tags: ['time-management'],
     prompts: [
       '你现在的工作节奏更像"日计划"还是"周计划"？试试以周为单位会怎样？',
@@ -290,7 +290,7 @@ const BACKLOG = [
     source: '书籍',
     guest: 'Dominique Loreau',
     type: 'book',
-    date: '2026-04-29',
+    date: '2014-01-01',
     tags: ['lifestyle'],
     prompts: [
       '你生活中哪些东西其实可以做减法？',
@@ -302,9 +302,11 @@ const BACKLOG = [
     title: 'Todd Jackson：寻找 PMF 的实战框架',
     subtitle: 'First Round Capital 合伙人：极致 PMF = 需求 × 满意度 × 效率',
     source: '视频/播客',
+    sourceUrl: 'https://www.youtube.com/watch?v=yc1Uwhfxacs',
     guest: 'Todd Jackson · First Round Capital',
     type: 'video',
-    date: '2026-04-29',
+    url: 'https://www.youtube.com/watch?v=yc1Uwhfxacs',
+    date: '2024-04-11',
     tags: ['pmf', 'startup', 'gtm'],
     prompts: [
       '需求、满意度、效率——你的产品在哪个维度最弱？',
@@ -316,9 +318,11 @@ const BACKLOG = [
     title: 'Kane Callaway：讲好故事的 5 个法则',
     subtitle: '从 Rapper 到百万 KOL：用 "But & Therefore" 逻辑重构所有销售内容',
     source: '视频/播客',
+    sourceUrl: 'https://www.youtube.com/watch?v=uDhZa_RopqE',
     guest: 'Kane Callaway',
     type: 'video',
-    date: '2026-04-29',
+    url: 'https://www.youtube.com/watch?v=uDhZa_RopqE',
+    date: '2025-04-28',
     tags: ['storytelling', 'gtm', 'growth'],
     prompts: [
       '试试用 "But & Therefore" 重写你产品的一句话介绍？',
@@ -330,9 +334,11 @@ const BACKLOG = [
     title: 'Ethan Smith：为什么 AEO 是搜索的未来',
     subtitle: 'SEO 核心原则仍适用，但 AEO 长尾更长更具体——品牌要被推荐在"答案"中',
     source: '视频/播客',
-    guest: 'Ethan Smith',
+    sourceUrl: 'https://www.youtube.com/watch?v=N36Q_oL6Kto',
+    guest: 'Ethan Smith · Graphite',
     type: 'video',
-    date: '2026-04-29',
+    url: 'https://www.youtube.com/watch?v=N36Q_oL6Kto',
+    date: '2025-11-14',
     tags: ['seo', 'gtm', 'ai-product'],
     prompts: [
       '你的产品/品牌在 AI 搜索的"答案"里出现过吗？试过吗？',
@@ -344,9 +350,11 @@ const BACKLOG = [
     title: 'Seth Godin：AI 时代如何打造非同凡响的品牌',
     subtitle: '"真实性是陷阱，一致性才是专业"——在不同时空持续做好一件事',
     source: '视频/播客',
+    sourceUrl: 'https://www.youtube.com/watch?v=UyWTDmDjNy4',
     guest: 'Seth Godin',
     type: 'video',
-    date: '2026-04-29',
+    url: 'https://www.youtube.com/watch?v=UyWTDmDjNy4',
+    date: '2024-12-08',
     tags: ['branding', 'gtm', 'strategy'],
     prompts: [
       '"真实性 vs 一致性"——你品牌的核心承诺是什么？你一直在兑现吗？',
@@ -361,7 +369,7 @@ const BACKLOG = [
     guest: 'Clayton Christensen',
     type: 'article',
     url: 'https://hbr.org/2016/09/know-your-customers-jobs-to-be-done',
-    date: '2026-04-29',
+    date: '2016-09-01',
     tags: ['jtbd', 'product-management', 'strategy'],
     prompts: [
       '你的客户"雇佣"你的产品来完成什么任务？功能性的？情感性的？社会性的？',
