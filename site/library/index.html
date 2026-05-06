@@ -131,7 +131,7 @@ h1 { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacin
 
   <div class="filters" id="type-filters">
     <button class="filter-btn active" data-type="all">全部</button>
-    <button class="filter-btn" data-type="analysis">播客分析</button>
+    <button class="filter-btn" data-type="analysis">深度分析</button>
     <button class="filter-btn" data-type="book">书</button>
     <button class="filter-btn" data-type="video">视频</button>
     <button class="filter-btn" data-type="article">文章</button>
@@ -214,22 +214,27 @@ function render() {
     const status = getStatus(a.id);
     const p = progressData[a.id];
     const tags = a.tags.slice(0, 3).map(makeTag).join(' ');
-    const href = a.type === 'analysis' ? `/articles/${a.id}.html` : (a.url || '#');
+    const href = a.type === 'analysis' ? `/articles/${a.id}.html` : (a.url || '');
     const target = (a.url && a.type !== 'analysis') ? ' target="_blank"' : '';
-    const meta = [a.guest, a.duration || a.source].filter(Boolean).join(' · ');
+    const meta = [a.guest || a.source, a.duration].filter(Boolean).join(' · ');
+    const typeLabel = { book: '📖', video: '🎬', article: '📄', analysis: '' }[a.type] || '';
     const progressBar = (status === 'reading' && p?.read_progress)
       ? `<div class="progress-bar"><div class="progress-fill" style="width:${p.read_progress * 100}%"></div></div>` : '';
     const statusDot = status !== 'unread' ? `<span class="status-dot ${status}"></span>` : '';
 
-    return `<a class="card" href="${href}"${target}>
-      <div class="card-title">${a.title}</div>
-      <div class="card-sub">${a.subtitle}</div>
+    const isLink = !!href;
+    const openTag = isLink ? `<a class="card" href="${href}"${target}>` : `<div class="card">`;
+    const closeTag = isLink ? `</a>` : `</div>`;
+
+    return `${openTag}
+      <div class="card-title">${typeLabel} ${a.title}</div>
+      <div class="card-sub">${a.subtitle || ''}</div>
       <div class="card-footer">
         ${statusDot}<span class="card-meta">${meta}</span>
         ${tags}
       </div>
       ${progressBar}
-    </a>`;
+    ${closeTag}`;
   }).join('');
 }
 
