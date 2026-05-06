@@ -46,7 +46,7 @@ function initHighlights(contentId) {
     try { localStorage.setItem(LS_KEY, JSON.stringify(highlights)); } catch {}
   }
 
-  const articles = document.querySelectorAll('.article');
+  const articles = document.querySelectorAll('.article, .tldr, .tensions');
   if (!articles.length) return;
 
   // Toast
