@@ -277,33 +277,43 @@ function initHighlights(contentId) {
       art.querySelectorAll('.hl-mark').forEach(el => el.replaceWith(document.createTextNode(el.textContent)));
       art.normalize();
     });
-    highlights.forEach(hl => {
-      if (!hl.position) return;
+    // Sort highlights by position.start descending so later ones don't shift earlier ones
+    const sorted = [...highlights].filter(h => h.position).sort((a, b) => b.position.start - a.position.start);
+    sorted.forEach(hl => {
       try { for (const art of articles) { if (applyMark(art, hl)) break; } } catch {}
     });
   }
 
   function applyMark(container, hl) {
+    // Collect all text nodes that overlap with the highlight range
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
     let pos = 0, node;
+    const nodes = [];
     while (node = walker.nextNode()) {
       const end = pos + node.length;
       if (pos < hl.position.end && end > hl.position.start) {
-        const s = Math.max(0, hl.position.start - pos);
-        const e = Math.min(node.length, hl.position.end - pos);
-        const range = document.createRange();
-        range.setStart(node, s);
-        range.setEnd(node, e);
-        const mark = document.createElement('mark');
-        mark.className = 'hl-mark';
-        if (hl.color) mark.dataset.color = hl.color;
-        mark.dataset.id = hl.id;
-        if (hl.note) mark.classList.add('has-note');
-        range.surroundContents(mark);
-        return true;
+        nodes.push({ node, pos, end });
       }
       pos = end;
     }
+    if (!nodes.length) return false;
+
+    // Wrap each overlapping text node segment in a <mark>
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const { node, pos: nodeStart } = nodes[i];
+      const s = Math.max(0, hl.position.start - nodeStart);
+      const e = Math.min(node.length, hl.position.end - nodeStart);
+      const range = document.createRange();
+      range.setStart(node, s);
+      range.setEnd(node, e);
+      const mark = document.createElement('mark');
+      mark.className = 'hl-mark';
+      if (hl.color) mark.dataset.color = hl.color;
+      mark.dataset.id = hl.id;
+      if (hl.note) mark.classList.add('has-note');
+      range.surroundContents(mark);
+    }
+    return true;
   }
 
   render();
