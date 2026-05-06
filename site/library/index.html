@@ -46,8 +46,9 @@ h1 { font-family: var(--serif); font-size: clamp(1.75rem, 3.5vw, 2.25rem); font-
 .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
 .ep-list { margin-top: 32px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+.ep-list > * { display: flex; flex-direction: column; }
 .ep-link {
-  display: flex; flex-direction: column;
+  display: flex !important; flex-direction: column !important;
   padding: 24px 28px;
   background: var(--surface);
   border-radius: 14px;
@@ -57,6 +58,7 @@ h1 { font-family: var(--serif); font-size: clamp(1.75rem, 3.5vw, 2.25rem); font-
   transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
   min-width: 0;
+  min-height: 0;
 }
 .ep-link:hover { transform: translateY(-3px); box-shadow: 0 8px 24px oklch(0% 0 0 / 0.12); }
 .ep-link:hover .ep-title { color: var(--accent); }
