@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260505">
+<link rel="stylesheet" href="/assets/learning.css?v=20260506">
 <style>
 :root {
   --bg: oklch(98% 0.005 60);
@@ -32,7 +32,13 @@ h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight
 .stats strong { color: var(--text); font-size: 1.25rem; }
 .desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
 
-.article-group { margin-bottom: 40px; }
+.article-group {
+  margin-bottom: 32px;
+  padding: 24px 28px;
+  background: oklch(100% 0 0);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px oklch(0% 0 0 / 0.06);
+}
 .article-group-title {
   font-family: var(--serif);
   font-size: 1.05rem;
@@ -106,7 +112,7 @@ h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight
   <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/topics/">主题</a> · Sands 🏖️</div>
 </div>
 
-<script src="/assets/content-data.js?v=20260505"></script>
+<script src="/assets/content-data.js?v=20260506"></script>
 <script>
 const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
 // All known content IDs

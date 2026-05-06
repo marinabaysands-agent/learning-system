@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260505">
+<link rel="stylesheet" href="/assets/learning.css?v=20260506">
 <style>
 :root {
   --bg: oklch(98% 0.005 60);
@@ -28,16 +28,21 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); line
 h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; }
 .desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
 
-.topic-card {
-  padding: 20px 0;
-  border-top: 1px solid var(--border);
+#topics-container {
+  display: flex; flex-wrap: wrap; gap: 12px;
 }
-.topic-card:last-child { border-bottom: 1px solid var(--border); }
-.topic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; }
+.topic-card {
+  padding: 0;
+  border: none;
+  flex: 0 0 auto;
+}
+.topic-header { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 16px; background: var(--surface); border-radius: 10px; box-shadow: 0 1px 4px oklch(0% 0 0 / 0.05); transition: transform 0.15s, box-shadow 0.15s; }
+.topic-header:hover { transform: translateY(-1px); box-shadow: 0 3px 10px oklch(0% 0 0 / 0.08); }
 .topic-header:hover .topic-name { color: var(--accent); }
-.topic-name { font-family: var(--serif); font-size: 1.125rem; font-weight: 600; transition: color 0.15s; }
-.topic-count { font-size: 0.8125rem; color: var(--text3); }
-.topic-articles { display: none; }
+.topic-name { font-family: var(--sans); font-size: 0.875rem; font-weight: 500; transition: color 0.15s; }
+.topic-count { font-size: 0.75rem; color: var(--text3); }
+.topic-articles { display: none; position: absolute; top: 100%; left: 0; min-width: 280px; background: var(--surface); border-radius: 10px; box-shadow: 0 4px 20px oklch(0% 0 0 / 0.12); padding: 12px 0; z-index: 10; }
+.topic-card { position: relative; }
 .topic-card.open .topic-articles { display: block; }
 .topic-article {
   display: block;
@@ -54,7 +59,7 @@ h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight
 .footer a { color: var(--text2); text-decoration: none; }
 
 @media (min-width: 768px) {
-  .page { max-width: 720px; }
+  .page { max-width: 880px; }
 }
 </style>
 </head>
@@ -69,7 +74,7 @@ h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight
   <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/notes/">笔记</a> · Sands 🏖️</div>
 </div>
 
-<script src="/assets/content-data.js?v=20260505"></script>
+<script src="/assets/content-data.js?v=20260506"></script>
 <script>
 // Build topic -> articles map
 const topicMap = {};
