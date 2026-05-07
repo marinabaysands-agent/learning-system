@@ -201,102 +201,15 @@ const TAGS = {
   'design': { label: '设计', color: 'oklch(58% 0.08 320)' },
   'gtm': { label: 'GTM', color: 'oklch(58% 0.07 50)' },
   'storytelling': { label: '讲故事', color: 'oklch(58% 0.07 330)' },
-  'positioning': { label: '定位', color: 'oklch(58% 0.07 75)' },
-  'pricing': { label: '定价', color: 'oklch(58% 0.07 105)' },
-  'time-management': { label: '时间管理', color: 'oklch(58% 0.06 210)' },
-  'lifestyle': { label: '生活方式', color: 'oklch(58% 0.06 160)' },
+
   'seo': { label: 'SEO/AEO', color: 'oklch(58% 0.07 230)' },
   'branding': { label: '品牌', color: 'oklch(58% 0.08 340)' },
   'jtbd': { label: 'JTBD', color: 'oklch(58% 0.07 15)' },
   'pmf': { label: 'PMF', color: 'oklch(58% 0.07 135)' },
 };
 
-// Backlog items - books, videos, articles to read (no analysis page yet)
+// Backlog items - videos and articles to read (no analysis page yet)
 const BACKLOG = [
-  {
-    id: 'daniel-pink-whole-new-mind',
-    title: '全新思维',
-    subtitle: '设计感、故事力、交响力、共情力、娱乐感、意义感——20年前预言的六大能力，正是当下最稀缺的',
-    source: '书籍',
-    guest: '丹尼尔·平克',
-    type: 'book',
-    date: '2005-03-24',
-    tags: ['future-of-work', 'design'],
-    prompts: [
-      '平克 20 年前提的六大能力，哪个你最缺？在 AI 时代哪个最值钱？',
-      '"程序员在快餐店擦柜台"——你觉得这个预言准确吗？什么样的程序员不会？',
-    ]
-  },
-  {
-    id: 'moth-storytelling',
-    title: '怎样讲好一个故事',
-    subtitle: '飞蛾故事会 30 年经验：一味炫耀辉煌让人失去兴趣，邀请听众参与才是关键',
-    source: '书籍',
-    guest: '飞蛾故事会',
-    type: 'book',
-    date: '2022-04-26',
-    tags: ['storytelling', 'product-management'],
-    prompts: [
-      '你能用飞蛾的方法，把自己最近做的一件事讲成一个故事吗？',
-      '"邀请听众参与"——你的产品 pitch 里有没有做到这一点？',
-    ]
-  },
-  {
-    id: 'april-dunford-positioning',
-    title: '产品定位10步法',
-    subtitle: 'April Dunford：第一步不是定义自己，而是找到"如果你不存在，客户会用什么"',
-    source: '书籍',
-    guest: 'April Dunford',
-    type: 'book',
-    date: '2019-05-14',
-    tags: ['positioning', 'gtm', 'product-management'],
-    prompts: [
-      '你的产品的竞争性替代方案是什么？如果你不存在，客户会怎么办？',
-      '你的独有能力中，哪些和技术无关（服务、品位、经验）？',
-    ]
-  },
-  {
-    id: 'monetizing-innovation',
-    title: '创新变现 (Monetizing Innovation)',
-    subtitle: '定价是产品的核心功能——别等研发完了再拍脑袋',
-    source: '书籍',
-    guest: 'Madhavan Ramanujam & Georg Tacke',
-    type: 'book',
-    date: '2016-05-02',
-    tags: ['pricing', 'product-management', 'strategy'],
-    prompts: [
-      '你现在的产品定价是怎么定的？有没有在研发前就验证过支付意愿？',
-      '"竞争对手有啥我就有啥"这个陷阱你踩过吗？',
-    ]
-  },
-  {
-    id: 'hyper-time-management',
-    title: '超高效时间管理',
-    subtitle: '以周为单位：战略时间段 3h 深度工作 + 缓冲时间 30min-1h + 休息时间 ≥3h',
-    source: '书籍',
-    guest: '',
-    type: 'book',
-    date: '2019-11-01',
-    tags: ['time-management'],
-    prompts: [
-      '你现在的工作节奏更像"日计划"还是"周计划"？试试以周为单位会怎样？',
-      '上周你有多少小时是真正的"战略时间段"无干扰深度工作？',
-    ]
-  },
-  {
-    id: 'ideal-simple-life',
-    title: '理想的简单生活',
-    subtitle: '旅居日本的法国女作家：拥有更少，才能更自由地生活',
-    source: '书籍',
-    guest: 'Dominique Loreau',
-    type: 'book',
-    date: '2014-01-01',
-    tags: ['lifestyle'],
-    prompts: [
-      '你生活中哪些东西其实可以做减法？',
-      '"简单"和"偷懒"的区别是什么？',
-    ]
-  },
   {
     id: 'todd-jackson-pmf',
     title: 'Todd Jackson：寻找 PMF 的实战框架',

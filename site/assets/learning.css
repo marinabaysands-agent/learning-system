@@ -343,6 +343,16 @@
   .toc a { font-size: 0.8125rem; line-height: 1.6; }
 }
 
+/* ===================== ARTICLE TLDR ===================== */
+.art-tldr { background: oklch(92% 0.04 25); border-radius: 14px; padding: 20px; margin: 24px 0; }
+.art-tldr-label { font-size: 0.625rem; font-weight: 700; color: oklch(45% 0.12 25); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.art-tldr-text { font-size: 0.8125rem; line-height: 1.6; }
+.art-tldr-stats { display: flex; gap: 20px; margin-top: 14px; padding-top: 12px; border-top: 1px solid oklch(88% 0.04 25); }
+.art-stat { text-align: center; }
+.art-stat-num { font-family: 'Noto Serif SC', serif; font-size: 1.125rem; font-weight: 700; color: oklch(45% 0.12 25); }
+.art-stat-label { font-size: 0.625rem; color: oklch(62% 0.01 60); margin-top: 1px; }
+.art-hl { background: linear-gradient(180deg, transparent 60%, oklch(90% 0.08 80 / 0.5) 60%); padding: 0 2px; }
+
 /* ===================== ANIMATIONS ===================== */
 @keyframes fadeInOverlay {
   from { opacity: 0; }

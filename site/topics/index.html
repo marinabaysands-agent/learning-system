@@ -7,102 +7,122 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260506b">
+<link rel="stylesheet" href="/assets/learning.css?v=20260507">
 <style>
 :root {
-  --bg: oklch(98.5% 0.003 60);
+  --bg: oklch(97.5% 0.004 60);
   --surface: oklch(100% 0 0);
   --text: oklch(15% 0.01 60);
-  --text2: oklch(50% 0.01 60);
-  --text3: oklch(65% 0.01 60);
-  --accent: oklch(45% 0.10 30);
-  --border: oklch(92% 0.003 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 25);
+  --accent-soft: oklch(92% 0.04 25);
+  --done: oklch(55% 0.08 155);
+  --done-soft: oklch(93% 0.03 155);
+  --border: oklch(93% 0.003 60);
   --serif: 'Noto Serif SC', Georgia, serif;
   --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
-::selection { background: oklch(90% 0.06 30); }
-.page { max-width: 720px; margin: 0 auto; padding: 64px 24px; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.page-content { max-width: 390px; margin: 0 auto; padding: 56px 24px 100px; }
 
-.back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
-.back:hover { color: var(--text); }
-h1 { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; line-height: 1.3; }
-.desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
+.page-header { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; margin-bottom: 24px; }
 
-.tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
-.topic-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 16px;
-  border-radius: 100px;
+.pill-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  padding: 10px 16px;
+  border-radius: 12px;
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  text-decoration: none;
   transition: transform 0.15s, box-shadow 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.topic-pill:hover { transform: translateY(-1px); box-shadow: 0 2px 8px oklch(0% 0 0 / 0.08); }
-.topic-count { font-size: 0.6875rem; opacity: 0.7; }
+.pill:hover { transform: translateY(-1px); box-shadow: 0 2px 8px oklch(0% 0 0 / 0.06); }
+.pill .pill-count { font-size: 0.6875rem; opacity: 0.7; margin-left: 4px; }
 
-.topic-detail {
-  margin-top: 24px; padding: 20px 24px;
-  background: var(--surface); border-radius: 12px;
-  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.04), 0 4px 12px oklch(0% 0 0 / 0.06);
+.detail-panel {
+  margin-top: 20px;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.04), 0 4px 12px oklch(0% 0 0 / 0.04);
   display: none;
 }
-.topic-detail.open { display: block; }
-.topic-detail-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
-.topic-article { display: block; padding: 6px 0; text-decoration: none; color: var(--text2); font-size: 0.9375rem; transition: color 0.15s; }
-.topic-article:hover { color: var(--accent); }
+.detail-panel.open { display: block; }
+.detail-title { font-size: 0.8125rem; font-weight: 600; color: var(--text2); margin-bottom: 12px; }
+.detail-list a {
+  display: block;
+  padding: 10px 0;
+  font-size: 0.8125rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.detail-list a:last-child { border-bottom: none; }
+.detail-list a:hover { color: var(--accent); }
 
-.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
-.footer a { color: var(--text2); text-decoration: none; }
+.nav-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  background: var(--surface); border-top: 1px solid var(--border);
+}
+.nav-item { text-align: center; text-decoration: none; color: inherit; }
+.nav-icon { font-size: 1.125rem; margin-bottom: 2px; }
+.nav-label { font-size: 0.625rem; color: var(--text3); font-weight: 500; }
+.nav-item.active .nav-label { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="page">
-  <a class="back" href="/">← 首页</a>
-  <h1>主题</h1>
-  <div class="desc">按标签浏览内容</div>
-
-  <div class="tag-cloud" id="tag-cloud"></div>
-  <div class="topic-detail" id="topic-detail"></div>
-
-  <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/notes/">笔记</a></div>
+<div class="page-content">
+  <div class="page-header">主题</div>
+  <div class="pill-cloud" id="pill-cloud"></div>
+  <div class="detail-panel" id="detail-panel"></div>
 </div>
 
-<script src="/assets/content-data.js?v=20260506b"></script>
+<div class="nav-footer">
+  <a class="nav-item" href="/"><div class="nav-icon">📅</div><div class="nav-label">首页</div></a>
+  <a class="nav-item" href="/library/"><div class="nav-icon">📚</div><div class="nav-label">全部</div></a>
+  <a class="nav-item" href="/notes/"><div class="nav-icon">✏️</div><div class="nav-label">笔记</div></a>
+  <a class="nav-item active" href="/topics/"><div class="nav-icon">🏷️</div><div class="nav-label">主题</div></a>
+</div>
+
+<script src="/assets/content-data.js?v=20260507"></script>
+<script src="/assets/learning.js?v=20260507"></script>
 <script>
+const ALL_ITEMS = [...ARTICLES, ...(typeof BACKLOG !== 'undefined' ? BACKLOG : [])];
 const topicMap = {};
-ARTICLES.forEach(a => {
-  a.tags.forEach(t => {
+ALL_ITEMS.forEach(a => {
+  (a.tags || []).forEach(t => {
     if (!topicMap[t]) topicMap[t] = [];
     topicMap[t].push(a);
   });
 });
 
 const sorted = Object.entries(topicMap).sort((a, b) => b[1].length - a[1].length);
-const cloud = document.getElementById('tag-cloud');
-const detail = document.getElementById('topic-detail');
+const cloud = document.getElementById('pill-cloud');
+const detail = document.getElementById('detail-panel');
 
 cloud.innerHTML = sorted.map(([tag, articles]) => {
   const info = TAGS[tag] || { label: tag, color: 'oklch(58% 0.07 60)' };
   const match = info.color.match(/(\d+)\s*\)$/);
   const hue = match ? match[1] : '60';
-  const bg = `oklch(94% 0.015 ${hue})`;
-  const fg = `oklch(40% 0.05 ${hue})`;
-  return `<a class="topic-pill" data-tag="${tag}" style="background:${bg};color:${fg}">${info.label} <span class="topic-count">${articles.length}</span></a>`;
+  const bg = `oklch(94% 0.02 ${hue})`;
+  const fg = `oklch(35% 0.06 ${hue})`;
+  return `<span class="pill" data-tag="${tag}" style="background:${bg};color:${fg}">${info.label}<span class="pill-count">${articles.length}</span></span>`;
 }).join('');
 
 cloud.addEventListener('click', e => {
-  const pill = e.target.closest('.topic-pill');
+  const pill = e.target.closest('.pill');
   if (!pill) return;
   const tag = pill.dataset.tag;
   const articles = topicMap[tag];
   const info = TAGS[tag] || { label: tag };
   detail.classList.add('open');
-  detail.innerHTML = `<div class="topic-detail-title">${info.label}（${articles.length} 篇）</div>` +
-    articles.map(a => `<a class="topic-article" href="/articles/${a.id}.html">${a.title}</a>`).join('');
+  detail.innerHTML = `<div class="detail-title">${info.label} · ${articles.length} 篇</div>
+    <div class="detail-list">${articles.map(a => `<a href="/articles/${a.id}.html">${a.title}</a>`).join('')}</div>`;
   detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 </script>

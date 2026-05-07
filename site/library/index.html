@@ -2,243 +2,214 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>内容库 — Learning System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260506b">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: oklch(98.5% 0.003 60);
+  --bg: oklch(97.5% 0.004 60);
   --surface: oklch(100% 0 0);
   --text: oklch(15% 0.01 60);
-  --text2: oklch(50% 0.01 60);
-  --text3: oklch(65% 0.01 60);
-  --accent: oklch(45% 0.10 30);
-  --border: oklch(92% 0.003 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 25);
+  --accent-soft: oklch(92% 0.04 25);
+  --done: oklch(55% 0.08 155);
+  --done-soft: oklch(93% 0.03 155);
+  --border: oklch(93% 0.003 60);
   --serif: 'Noto Serif SC', Georgia, serif;
   --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
-::selection { background: oklch(90% 0.06 30); }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+.page-content { max-width: 390px; margin: 0 auto; padding: 56px 24px 100px; }
 
-.page { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
-@media (min-width: 1400px) { .page { max-width: 1100px; } }
+.lib-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.lib-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; }
+.lib-stats { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
 
-.back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
-.back:hover { color: var(--text); }
-h1 { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; line-height: 1.3; }
-.desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; }
+.week-view { margin-top: 12px; }
+.week-label { font-size: 0.6875rem; font-weight: 600; color: var(--text3); letter-spacing: 0.04em; margin-bottom: 8px; margin-top: 20px; }
+.week-label:first-child { margin-top: 0; }
 
-/* Filters */
-.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
-.filter-btn {
-  font-size: 0.8125rem;
-  padding: 6px 16px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  background: none;
-  color: var(--text2);
-  cursor: pointer;
-  font-family: var(--sans);
-  transition: all 0.15s;
+.day-row {
+  display: flex; gap: 12px; align-items: center;
+  padding: 12px 16px; margin-bottom: 4px; border-radius: 14px; transition: all 0.2s;
 }
-.filter-btn:hover { border-color: var(--text3); color: var(--text); }
-.filter-btn.active { background: var(--text); color: white; border-color: var(--text); }
+.day-row:hover { background: oklch(96% 0.003 60); }
+.day-row.is-today { background: var(--accent-soft); box-shadow: 0 0 0 1px oklch(85% 0.05 25); }
+.day-row.is-done { opacity: 0.7; }
 
-/* Card Grid */
-.card-grid {
-  margin-top: 32px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-@media (min-width: 768px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-}
-@media (min-width: 1400px) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
-}
+.day-row-date { width: 36px; flex-shrink: 0; }
+.day-row-num { font-size: 1rem; font-weight: 700; color: var(--text2); line-height: 1; }
+.day-row-weekday { font-size: 0.5625rem; color: var(--text3); }
+.day-row.is-today .day-row-num { color: var(--accent); }
+.day-row.is-done .day-row-num { color: var(--done); }
 
-/* Card */
-.card {
-  display: block;
-  padding: 24px 28px;
-  background: var(--surface);
-  border-radius: 16px;
-  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.04), 0 4px 12px oklch(0% 0 0 / 0.06);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 6px oklch(0% 0 0 / 0.06), 0 8px 24px oklch(0% 0 0 / 0.10);
-}
-.card-title {
-  font-family: var(--serif);
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.4;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  transition: color 0.15s;
-}
-.card:hover .card-title { color: var(--accent); }
-.card-sub {
-  font-size: 0.8125rem;
-  color: var(--text2);
-  margin-top: 8px;
-  line-height: 1.5;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.card-footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  font-size: 0.75rem;
-  color: var(--text3);
-}
-.card-meta { white-space: nowrap; }
-.tag {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 100px;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1.6;
-}
-.progress-bar { width: 100%; height: 4px; background: oklch(92% 0.003 60); border-radius: 2px; margin-top: 12px; }
-.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+.day-row-content { flex: 1; min-width: 0; }
+.day-row-title { font-size: 0.8125rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-row-meta { font-size: 0.6875rem; color: var(--text3); }
 
-.status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 4px; }
-.status-dot.reading { background: var(--accent); }
-.status-dot.read { background: oklch(60% 0.10 150); }
+.day-row-status { flex-shrink: 0; }
+.status-done { width: 20px; height: 20px; border-radius: 50%; background: var(--done-soft); display: flex; align-items: center; justify-content: center; font-size: 0.625rem; color: var(--done); font-weight: 700; }
+.status-progress { font-size: 0.6875rem; font-weight: 600; color: var(--accent); }
+.status-empty { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid oklch(85% 0.01 60); }
 
-.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
-.footer a { color: var(--text2); text-decoration: none; }
-.footer a:hover { color: var(--text); }
+.rest-day { color: var(--text3); font-style: italic; }
+
+.nav-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  background: var(--surface); border-top: 1px solid var(--border);
+}
+.nav-item { text-align: center; text-decoration: none; color: inherit; }
+.nav-icon { font-size: 1.125rem; margin-bottom: 2px; }
+.nav-label { font-size: 0.625rem; color: var(--text3); font-weight: 500; }
+.nav-item.active .nav-label { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="page">
-  <a class="back" href="/">← 首页</a>
-  <h1>内容库</h1>
-  <div class="desc" id="count"></div>
-
-  <div class="filters" id="type-filters">
-    <button class="filter-btn active" data-type="all">全部</button>
-    <button class="filter-btn" data-type="analysis">深度分析</button>
-    <button class="filter-btn" data-type="book">书</button>
-    <button class="filter-btn" data-type="video">视频</button>
-    <button class="filter-btn" data-type="article">文章</button>
+<div class="page-content">
+  <div class="lib-header">
+    <div>
+      <div class="lib-title">内容库</div>
+      <div class="lib-stats" id="lib-stats"></div>
+    </div>
   </div>
-
-  <div class="filters" id="status-filters">
-    <button class="filter-btn active" data-filter="all">全部</button>
-    <button class="filter-btn" data-filter="unread">未读</button>
-    <button class="filter-btn" data-filter="reading">阅读中</button>
-    <button class="filter-btn" data-filter="read">已读</button>
-  </div>
-
-  <div class="card-grid" id="card-grid"></div>
-
-  <div class="footer"><a href="/">首页</a> · <a href="/notes/">笔记</a> · <a href="/topics/">主题</a></div>
+  <div class="week-view" id="week-view"></div>
 </div>
 
-<script src="/assets/content-data.js?v=20260506b"></script>
+<div class="nav-footer">
+  <a class="nav-item" href="/"><div class="nav-icon">📅</div><div class="nav-label">首页</div></a>
+  <a class="nav-item active" href="/library/"><div class="nav-icon">📚</div><div class="nav-label">全部</div></a>
+  <a class="nav-item" href="/notes/"><div class="nav-icon">✏️</div><div class="nav-label">笔记</div></a>
+  <a class="nav-item" href="/topics/"><div class="nav-icon">🏷️</div><div class="nav-label">主题</div></a>
+</div>
+
+<script src="/assets/content-data.js"></script>
+<script src="/assets/learning.js"></script>
 <script>
-const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
-let currentFilter = 'all';
-let currentType = 'all';
-let progressData = {};
+(async function() {
+  const START_DATE = '2026-04-23';
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const WEEKDAYS = ['日','一','二','三','四','五','六'];
 
-const ALL_ITEMS = [
-  ...ARTICLES.map(a => ({ ...a, type: 'analysis' })),
-  ...(typeof BACKLOG !== 'undefined' ? BACKLOG : [])
-];
+  function getArticleDate(index) {
+    const d = new Date(START_DATE);
+    d.setDate(d.getDate() + index);
+    return d;
+  }
 
-async function init() {
-  try { progressData = await fetch(`${API_BASE}/api/progress`).then(r => r.json()); } catch {}
+  // Fetch progress
+  let progressData = {};
+  try {
+    const res = await api.get('/api/progress');
+    if (res.progress) res.progress.forEach(p => { progressData[p.contentId] = p; });
+  } catch(e) {}
 
-  document.querySelectorAll('#status-filters .filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#status-filters .filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentFilter = btn.dataset.filter;
-      render();
-    });
-  });
+  // Stats
+  const total = ARTICLES.length;
+  const doneCount = Object.values(progressData).filter(p => p.status === 'done').length;
+  document.getElementById('lib-stats').textContent = `${total} 篇 · ${doneCount} 已读`;
 
-  document.querySelectorAll('#type-filters .filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentType = btn.dataset.type;
-      render();
-    });
-  });
+  // Build schedule with dates
+  const schedule = ARTICLES.map((art, i) => ({ art, date: getArticleDate(i), index: i }));
 
-  render();
-}
+  // Group by week (Monday-based)
+  function getWeekMonday(d) {
+    const copy = new Date(d);
+    const dow = copy.getDay();
+    const diff = (dow === 0 ? -6 : 1) - dow;
+    copy.setDate(copy.getDate() + diff);
+    return copy;
+  }
 
-function getStatus(id) {
-  return progressData[id]?.status || 'unread';
-}
+  // Build all days from first article to last, grouped by week
+  const firstDate = new Date(START_DATE);
+  const lastDate = getArticleDate(ARTICLES.length - 1);
+  // Extend to end of that week (Sunday)
+  const lastSunday = new Date(lastDate);
+  const ld = lastSunday.getDay();
+  if (ld !== 0) lastSunday.setDate(lastSunday.getDate() + (7 - ld));
 
-function makeTag(tagId) {
-  const tag = TAGS[tagId];
-  if (!tag) return '';
-  // Extract hue from tag color string like "oklch(58% 0.08 280)"
-  const match = tag.color.match(/(\d+)\s*\)$/);
-  const hue = match ? match[1] : '60';
-  const bg = `oklch(94% 0.015 ${hue})`;
-  const fg = `oklch(40% 0.05 ${hue})`;
-  return `<span class="tag" style="background:${bg};color:${fg}">${tag.label}</span>`;
-}
+  // Map date string → article
+  const dateToArticle = {};
+  schedule.forEach(s => { dateToArticle[s.date.toISOString().slice(0,10)] = s.art; });
 
-function render() {
-  const grid = document.getElementById('card-grid');
-  const filtered = ALL_ITEMS.filter(a => {
-    if (currentFilter !== 'all' && getStatus(a.id) !== currentFilter) return false;
-    if (currentType !== 'all' && a.type !== currentType) return false;
-    return true;
-  });
+  // Generate weeks
+  let weeks = [];
+  let current = getWeekMonday(firstDate);
+  while (current <= lastSunday) {
+    const weekStart = new Date(current);
+    const weekEnd = new Date(current);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    let days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(current);
+      d.setDate(d.getDate() + i);
+      days.push(d);
+    }
+    weeks.push({ start: weekStart, end: weekEnd, days });
+    current.setDate(current.getDate() + 7);
+  }
 
-  document.getElementById('count').textContent = `${filtered.length} 篇`;
+  // Render
+  let html = '';
+  const todayMid = new Date(todayStr);
+  
+  for (const week of weeks) {
+    // Week label
+    const ws = week.start;
+    const we = week.end;
+    const isThisWeek = todayMid >= ws && todayMid <= we;
+    const wsMonth = ws.getMonth() + 1;
+    const weMonth = we.getMonth() + 1;
+    const label = isThisWeek ? '本周' : `${wsMonth}月${ws.getDate()}日`;
+    const rangeStr = `${wsMonth}月${ws.getDate()}日—${weMonth === wsMonth ? '' : weMonth + '月'}${we.getDate()}日`;
+    html += `<div class="week-label">${isThisWeek ? '本周' : label} · ${rangeStr}</div>`;
 
-  grid.innerHTML = filtered.map(a => {
-    const status = getStatus(a.id);
-    const p = progressData[a.id];
-    const tags = a.tags.slice(0, 3).map(makeTag).join(' ');
-    const href = a.type === 'analysis' ? `/articles/${a.id}.html` : (a.url || '');
-    const target = (a.url && a.type !== 'analysis') ? ' target="_blank"' : '';
-    const meta = [a.guest || a.source, a.duration].filter(Boolean).join(' · ');
-    const typeLabel = { book: '📖', video: '🎬', article: '📄', analysis: '' }[a.type] || '';
-    const progressBar = (status === 'reading' && p?.read_progress)
-      ? `<div class="progress-bar"><div class="progress-fill" style="width:${p.read_progress * 100}%"></div></div>` : '';
-    const statusDot = status !== 'unread' ? `<span class="status-dot ${status}"></span>` : '';
+    for (const day of week.days) {
+      const ds = day.toISOString().slice(0,10);
+      const art = dateToArticle[ds];
+      const isToday = ds === todayStr;
+      const dow = day.getDay();
+      const weekdayLabel = isToday ? '今天' : `周${WEEKDAYS[dow]}`;
 
-    const isLink = !!href;
-    const openTag = isLink ? `<a class="card" href="${href}"${target}>` : `<div class="card">`;
-    const closeTag = isLink ? `</a>` : `</div>`;
+      if (!art) {
+        // Rest day
+        html += `<div class="day-row">
+          <div class="day-row-date"><div class="day-row-num">${day.getDate()}</div><div class="day-row-weekday">${weekdayLabel}</div></div>
+          <div class="day-row-content"><div class="day-row-title rest-day">休息日 ☕</div></div>
+          <div class="day-row-status"></div>
+        </div>`;
+        continue;
+      }
 
-    return `${openTag}
-      <div class="card-title">${typeLabel} ${a.title}</div>
-      <div class="card-sub">${a.subtitle || ''}</div>
-      <div class="card-footer">
-        ${statusDot}<span class="card-meta">${meta}</span>
-        ${tags}
-      </div>
-      ${progressBar}
-    ${closeTag}`;
-  }).join('');
-}
+      const p = progressData[art.id];
+      const status = p ? p.status : 'unread';
+      const pct = p ? (p.percent || 0) : 0;
 
-init();
+      let cls = 'day-row';
+      if (isToday) cls += ' is-today';
+      else if (status === 'done') cls += ' is-done';
+
+      let statusHtml = '';
+      if (status === 'done') statusHtml = '<div class="status-done">✓</div>';
+      else if (status === 'reading' && pct > 0) statusHtml = `<div class="status-progress">${pct}%</div>`;
+      else statusHtml = '<div class="status-empty"></div>';
+
+      html += `<div class="${cls}">
+        <div class="day-row-date"><div class="day-row-num">${day.getDate()}</div><div class="day-row-weekday">${weekdayLabel}</div></div>
+        <div class="day-row-content"><div class="day-row-title">${art.title}</div><div class="day-row-meta">${art.guest}</div></div>
+        <div class="day-row-status">${statusHtml}</div>
+      </div>`;
+    }
+  }
+
+  document.getElementById('week-view').innerHTML = html;
+})();
 </script>
 </body>
 </html>

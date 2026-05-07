@@ -6,116 +6,93 @@
 <title>我的笔记 — Learning System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/learning.css?v=20260506">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/learning.css?v=20260507">
 <style>
 :root {
-  --bg: oklch(98.5% 0.003 60);
+  --bg: oklch(97.5% 0.004 60);
+  --surface: oklch(100% 0 0);
   --text: oklch(15% 0.01 60);
-  --text2: oklch(50% 0.01 60);
-  --text3: oklch(65% 0.01 60);
-  --accent: oklch(45% 0.10 30);
-  --border: oklch(92% 0.003 60);
-  --note-bg: oklch(96% 0.008 60);
+  --text2: oklch(45% 0.01 60);
+  --text3: oklch(62% 0.01 60);
+  --accent: oklch(45% 0.12 25);
+  --accent-soft: oklch(92% 0.04 25);
+  --done: oklch(55% 0.08 155);
+  --done-soft: oklch(93% 0.03 155);
+  --border: oklch(93% 0.003 60);
   --serif: 'Noto Serif SC', Georgia, serif;
   --sans: 'Source Sans 3', -apple-system, system-ui, sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.75; -webkit-font-smoothing: antialiased; }
-::selection { background: oklch(90% 0.08 30); }
-.page { max-width: 640px; margin: 0 auto; padding: clamp(48px, 10vw, 96px) clamp(20px, 5vw, 48px); }
-@media (min-width: 768px) { .page { max-width: 720px; } }
-.back { font-size: 0.8125rem; color: var(--text3); text-decoration: none; }
-.back:hover { color: var(--text); }
-h1 { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 24px; }
-.stats { display: flex; gap: 24px; margin-top: 12px; font-size: 0.8125rem; color: var(--text3); }
-.stats strong { color: var(--text); font-size: 1.25rem; }
-.desc { font-size: 0.875rem; color: var(--text3); margin-top: 6px; margin-bottom: 32px; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.page-content { max-width: 390px; margin: 0 auto; padding: 56px 24px 100px; }
 
-.article-group {
-  margin-bottom: 32px;
-  padding: 24px 28px;
-  background: oklch(100% 0 0);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px oklch(0% 0 0 / 0.06);
+.page-header { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; }
+
+.stats-row { display: flex; gap: 24px; margin-bottom: 28px; }
+.stat-block { text-align: center; }
+.stat-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--text); }
+.stat-label { font-size: 0.6875rem; color: var(--text3); margin-top: 2px; }
+
+.article-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.04), 0 4px 12px oklch(0% 0 0 / 0.04);
 }
-.article-group-title {
+.article-card-title {
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   margin-bottom: 4px;
 }
-.article-group-title a { color: inherit; text-decoration: none; }
-.article-group-title a:hover { color: var(--accent); }
-.article-group-meta { font-size: 0.8125rem; color: var(--text3); margin-bottom: 16px; }
+.article-card-title a { color: inherit; text-decoration: none; }
+.article-card-meta { font-size: 0.6875rem; color: var(--text3); margin-bottom: 14px; }
 
-.note-item {
-  padding: 12px 16px;
-  background: var(--note-bg);
-  border-radius: 6px;
+.hl-line {
+  border-left: 3px solid oklch(82% 0.08 80);
+  background: oklch(98% 0.004 80);
+  border-radius: 8px;
+  padding: 10px 14px;
   margin-bottom: 8px;
-  font-size: 0.9375rem;
-  line-height: 1.8;
-}
-.note-item .hl-text { cursor: pointer; }
-.note-item .hl-text:hover { opacity: 0.7; }
-.note-item.yellow { border-left: 3px solid oklch(82% 0.15 85); }
-.note-item.green { border-left: 3px solid oklch(78% 0.14 155); }
-.note-item.red { border-left: 3px solid oklch(74% 0.14 25); }
-.note-item .note-annotation {
   font-size: 0.8125rem;
-  color: var(--text2);
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid var(--border);
+  line-height: 1.7;
+  color: var(--text);
 }
 
-.empty-state { font-size: 0.9375rem; color: var(--text3); padding: 40px 0; text-align: center; line-height: 2; }
+.empty-state { font-size: 0.875rem; color: var(--text3); text-align: center; padding: 48px 0; line-height: 2; }
 .empty-state a { color: var(--accent); text-decoration: none; }
-.footer { margin-top: 64px; font-size: 0.8125rem; color: var(--text3); }
-.footer a { color: var(--text2); text-decoration: none; }
 
-/* Conversation section */
-.conv-section { margin-top: 16px; }
-.conv-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
-.conv-msg { padding: 10px 14px; border-radius: 8px; margin-bottom: 6px; font-size: 0.875rem; line-height: 1.7; }
-.conv-msg.user { background: oklch(92% 0.04 220); margin-left: 24px; }
-.conv-msg.assistant { background: var(--note-bg); margin-right: 24px; }
-.conv-msg .conv-role { font-size: 0.6875rem; font-weight: 600; color: var(--text3); margin-bottom: 2px; }
-.conv-empty { font-size: 0.8125rem; color: var(--text3); font-style: italic; }
-
-/* Desktop dual-column */
-.notes-sidebar-item { padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9375rem; transition: background 0.15s; }
-.notes-sidebar-item:hover { background: oklch(94% 0.005 60); }
-.notes-sidebar-item.active { background: oklch(92% 0.02 30); font-weight: 500; }
-.notes-sidebar-item .sidebar-meta { font-size: 0.75rem; color: var(--text3); }
-
-@media (min-width: 1024px) {
-  .page { max-width: 960px; }
-  .notes-layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; }
-  .notes-sidebar { position: sticky; top: 80px; max-height: calc(100vh - 160px); overflow-y: auto; border-right: 1px solid var(--border); padding-right: 16px; }
-  .notes-main { min-width: 0; }
+.nav-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  background: var(--surface); border-top: 1px solid var(--border);
 }
+.nav-item { text-align: center; text-decoration: none; color: inherit; }
+.nav-icon { font-size: 1.125rem; margin-bottom: 2px; }
+.nav-label { font-size: 0.625rem; color: var(--text3); font-weight: 500; }
+.nav-item.active .nav-label { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="page">
-  <a class="back" href="/">← 首页</a>
-  <h1>我的笔记</h1>
-  <div class="stats" id="stats"></div>
-  <div class="desc">划线 + 批注</div>
-
-  <div id="notes-container">
-    <div class="empty-state">加载中...</div>
-  </div>
-
-  <div class="footer"><a href="/">首页</a> · <a href="/library/">内容库</a> · <a href="/topics/">主题</a> · Sands 🏖️</div>
+<div class="page-content">
+  <div class="page-header">我的笔记</div>
+  <div class="stats-row" id="stats"></div>
+  <div id="notes-container"><div class="empty-state">加载中...</div></div>
 </div>
 
-<script src="/assets/content-data.js?v=20260506"></script>
+<div class="nav-footer">
+  <a class="nav-item" href="/"><div class="nav-icon">📅</div><div class="nav-label">首页</div></a>
+  <a class="nav-item" href="/library/"><div class="nav-icon">📚</div><div class="nav-label">全部</div></a>
+  <a class="nav-item active" href="/notes/"><div class="nav-icon">✏️</div><div class="nav-label">笔记</div></a>
+  <a class="nav-item" href="/topics/"><div class="nav-icon">🏷️</div><div class="nav-label">主题</div></a>
+</div>
+
+<script src="/assets/content-data.js?v=20260507"></script>
+<script src="/assets/learning.js?v=20260507"></script>
 <script>
-const API_BASE = 'https://learning-system-api.majinghua02.workers.dev';
-// All known content IDs
 const ALL_ITEMS = [
   ...ARTICLES.map(a => ({ ...a, type: 'analysis' })),
   ...(typeof BACKLOG !== 'undefined' ? BACKLOG : [])
@@ -125,104 +102,59 @@ async function init() {
   const container = document.getElementById('notes-container');
   const statsEl = document.getElementById('stats');
 
-  // Fetch highlights from API for all articles
-  const groups = [];
-  let totalHighlights = 0;
-  let totalNotes = 0;
+  // Fetch all highlights
+  let allHighlights = [];
+  try {
+    const data = await fetch(`${API_BASE}/api/highlights`).then(r => r.json());
+    if (Array.isArray(data)) allHighlights = data;
+  } catch {
+    // Fallback: fetch per article
+    const fetches = ALL_ITEMS.map(async item => {
+      try {
+        const data = await fetch(`${API_BASE}/api/highlights/${item.id}`).then(r => r.json());
+        return Array.isArray(data) ? data.map(h => ({ ...h, contentId: item.id })) : [];
+      } catch { return []; }
+    });
+    allHighlights = (await Promise.all(fetches)).flat();
+  }
 
-  const fetches = ALL_ITEMS.map(async item => {
-    try {
-      const data = await fetch(`${API_BASE}/api/highlights/${item.id}`).then(r => r.json());
-      if (data && data.length) {
-        return { item, highlights: data };
-      }
-    } catch {}
-    return null;
+  // Group by contentId
+  const grouped = {};
+  allHighlights.forEach(h => {
+    const cid = h.contentId;
+    if (!grouped[cid]) grouped[cid] = [];
+    grouped[cid].push(h);
   });
 
-  const results = await Promise.all(fetches);
-  results.forEach(r => {
-    if (!r) return;
-    totalHighlights += r.highlights.length;
-    totalNotes += r.highlights.filter(h => h.note).length;
-    groups.push(r);
-  });
+  const articleCount = Object.keys(grouped).length;
+  const totalHL = allHighlights.length;
 
-  // Stats
   statsEl.innerHTML = `
-    <div><strong>${totalHighlights}</strong> 条划线</div>
-    <div><strong>${totalNotes}</strong> 条批注</div>
-    <div><strong>${groups.length}</strong> 篇文章</div>
+    <div class="stat-block"><div class="stat-num">${totalHL}</div><div class="stat-label">划线</div></div>
+    <div class="stat-block"><div class="stat-num">${articleCount}</div><div class="stat-label">篇文章</div></div>
   `;
 
-  if (!groups.length) {
+  if (!totalHL) {
     container.innerHTML = '<div class="empty-state">还没有笔记。<br>去<a href="/library/">内容库</a>阅读文章并划线高亮吧。</div>';
     return;
   }
 
-  container.innerHTML = groups.map(({ item, highlights }) => {
-    const href = item.type === 'analysis' ? `/articles/${item.id}.html` : (item.url || '/library/');
-    const meta = [item.guest, item.source].filter(Boolean).join(' · ');
-
+  container.innerHTML = Object.entries(grouped).map(([cid, highlights]) => {
+    const item = ALL_ITEMS.find(a => a.id === cid) || { title: cid, guest: '', date: '' };
+    const href = `/articles/${cid}.html`;
+    const meta = [item.guest, item.date].filter(Boolean).join(' · ');
     const hlHtml = highlights
       .sort((a, b) => (a.position?.start || 0) - (b.position?.start || 0))
-      .map(h => {
-        const color = h.color || 'yellow';
-        const noteHtml = h.note ? `<div class="note-annotation">💬 ${escHtml(h.note)}</div>` : '';
-        return `<div class="note-item ${color}">
-          <div class="hl-text" data-href="${href}">${escHtml(h.text)}</div>
-          ${noteHtml}
-        </div>`;
-      }).join('');
-
-    return `<div class="article-group" data-content-id="${item.id}">
-      <div class="article-group-title"><a href="${href}">${item.title}</a></div>
-      <div class="article-group-meta">${meta}</div>
+      .map(h => `<div class="hl-line">${esc(h.text)}</div>`).join('');
+    return `<div class="article-card">
+      <div class="article-card-title"><a href="${href}">${item.title}</a></div>
+      <div class="article-card-meta">${meta}</div>
       ${hlHtml}
-      <div class="conv-section" id="conv-${item.id}">
-        <div class="conv-label">💬 学习对话</div>
-        <div class="conv-empty">加载中...</div>
-      </div>
     </div>`;
   }).join('');
-
-  // Fetch conversations for each article group
-  groups.forEach(({ item }) => {
-    fetchConversation(item.id);
-  });
-
-  // Click highlight text to jump to article
-  container.querySelectorAll('.hl-text[data-href]').forEach(el => {
-    el.addEventListener('click', () => { window.location.href = el.dataset.href; });
-  });
 }
 
-async function fetchConversation(contentId) {
-  const section = document.getElementById('conv-' + contentId);
-  if (!section) return;
-  try {
-    const data = await fetch(`${API_BASE}/api/conversations/${contentId}`).then(r => r.json());
-    if (!data || !data.messages || !data.messages.length) {
-      section.querySelector('.conv-empty').textContent = '暂无学习对话';
-      return;
-    }
-    const msgsHtml = data.messages.map(m => {
-      const role = m.role === 'user' ? '我' : 'AI';
-      const text = escHtml(m.content || '').slice(0, 500);
-      return `<div class="conv-msg ${m.role}"><div class="conv-role">${role}</div>${text}</div>`;
-    }).join('');
-    section.innerHTML = `<div class="conv-label">💬 学习对话</div>${msgsHtml}`;
-  } catch {
-    section.querySelector('.conv-empty').textContent = '暂无学习对话';
-  }
-}
-
-function escHtml(s) {
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 init();
 </script>
 </body>
