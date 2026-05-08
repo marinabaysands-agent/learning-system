@@ -358,6 +358,26 @@ function initProgress(contentId) {
       ticking = false;
     });
   });
+
+  // Save progress immediately when leaving page (fixes progress loss on close)
+  function saveProgressNow() {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = h > 0 ? window.scrollY / h : 0;
+    if (pct > 0.05) {
+      const status = pct > 0.9 ? 'read' : 'reading';
+      const body = JSON.stringify({ contentId, status, read_progress: pct });
+      // Use sendBeacon for reliability on page close
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(`${API_BASE}/api/progress`, body);
+      } else {
+        api.put('/api/progress', { contentId, status, read_progress: pct });
+      }
+    }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') saveProgressNow();
+  });
+  window.addEventListener('beforeunload', saveProgressNow);
 }
 
 // ===================== ACTIVITY LOGGING =====================

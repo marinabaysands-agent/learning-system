@@ -73,8 +73,13 @@ export default {
         return json(data || { status: 'unread', read_progress: 0 });
       }
 
-      if (path === '/api/progress' && method === 'PUT') {
-        const body = await request.json();
+      if (path === '/api/progress' && (method === 'PUT' || method === 'POST')) {
+        let body;
+        try { body = await request.json(); } catch { 
+          // sendBeacon sends text/plain, try parsing text
+          const text = await request.text();
+          body = JSON.parse(text);
+        }
         const { contentId, status, read_progress } = body;
         if (!contentId) return err('Missing contentId');
         const key = `progress:${contentId}`;
